@@ -9,7 +9,7 @@ import java.util.Stack;
 public class Game{
 
     private Bitmap field;
-    private byte activePlayer;
+    private int activePlayer;
 
     private Stack<Move> moves = new Stack<>();
 
@@ -22,24 +22,38 @@ public class Game{
         return 0;
     }
 
-    public byte getActivePlayer() {
+    public int getActivePlayer() {
         return activePlayer;
     }
 
     public void move(Move move) {
-        this.field.setValue(move.getX_from(), move.getY_from(),(byte)0);
-        this.field.setValue(move.getX_to(), move.getY_to(),move.getMap_from());
 
+
+        if(move.getMap_target() == 0){
+            this.field.setValue(move.getX_from(), move.getY_from(),(byte)1);
+        }
+
+        this.field[move.getMap_from()].move();
+
+
+        this.field[move.getBitmapA().getBitmapIndex()] = move.getBitmapA();
+        this.field[move.getBitmapB().getBitmapIndex()] = move.getBitmapB();
         this.moves.add(move);
-        this.activePlayer = (byte)-activePlayer;
+        this.activePlayer = -activePlayer;
     }
 
     public void undoMove() {
-        this.activePlayer = (byte)-activePlayer;
-        Move move = moves.pop();
+        this.activePlayer = -activePlayer;
+        Move m = moves.pop();
+        Move prev = moves.get(moves.size()-1);
+        this.field[m.getBitmapA().getBitmapIndex()] = pre
+    }
 
         this.field.setValue(move.getX_from(), move.getY_from(),move.getMap_from());
         this.field.setValue(move.getX_to(), move.getY_to(),move.getMap_target());
+    public static void main(String[] args) {
+        byte b = 12;
+        System.out.println(b);
     }
 
     public void orderPossibleMoves(LinkedList moves) {
