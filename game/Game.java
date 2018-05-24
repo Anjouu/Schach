@@ -1,6 +1,7 @@
 package game;
 
 import java.util.LinkedList;
+import java.util.Stack;
 
 /**
  * Created by Anwender on 24.05.2018.
@@ -18,6 +19,7 @@ public class Game implements GameInterface<Move>{
     }
 
 
+    private Stack<Move> moves = new Stack<>();
     @Override
     public int evaluate() {
         return 0;
@@ -30,7 +32,10 @@ public class Game implements GameInterface<Move>{
 
     @Override
     public void move(Move move) {
-
+        this.bitmaps[move.getBitmapA().getBitmapIndex()] = move.getBitmapA();
+        this.bitmaps[move.getBitmapB().getBitmapIndex()] = move.getBitmapB();
+        this.moves.add(move);
+        this.currentPlayer = -currentPlayer;
     }
 
     @Override
