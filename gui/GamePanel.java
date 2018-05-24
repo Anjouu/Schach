@@ -18,13 +18,20 @@ public class GamePanel extends JPanel{
 
     private Game g;
 
+    public Color color_black = Color.gray;
+    public Color color_white = Color.white;
+    public Color color_selected = Color.green;
+    public Color color_available = Color.pink;
+    public Color color_takeable = Color.red;
+
+
     public GamePanel(Game g) {
         super();
 
         this.g = g;
         this.setLayout(new GridLayout(8,8));
 
-        for(int i = 0; i < 8; i++) {
+        for(int i = 7; i >= 0; i--) {
             for(int n = 0; n < 8; n++) {
                 JButton b = new JButton();
 
@@ -32,10 +39,11 @@ public class GamePanel extends JPanel{
                 b.setBorder(new LineBorder(Color.black, 2));
                 b.setFocusPainted(false);
                 b.setOpaque(true);
+                b.setFont(new Font("Arial", 1, 50));
+                
+                final int x = n;
+                final int y = i;
 
-
-                final int x = i;
-                final int y = n;
                 b.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -48,6 +56,7 @@ public class GamePanel extends JPanel{
             }
         }
         resetBackground();
+        updateBackgrounds();
     }
 
     private void resetBackground(){
@@ -63,45 +72,49 @@ public class GamePanel extends JPanel{
             for(int n = 0; n < 8; n++) {
                 buttons[i][n].setBackground((i % 2 == 1 && n % 2 == 0 || i % 2 == 0 && n % 2 == 1 ? color_black:color_white)) ;
                 //buttons[i][n].setIcon(getIcon(v));
-                buttons[i][n].setText(g.getField().getValue(i,n) + "");
+                if(g.getField().getValue(i,n) != 0){
+                    buttons[i][n].setText(g.getField().getValue(i,n) + "");
+                }else{
+                    buttons[i][n].setText("");
+                }
+
             }
         }
-        if(selected != -1) {
+        if(selected_x != -1) {
             for(Move z:g.getPossibleMoves()){
-                if(z.von == selected) {
-                    if(b.field[z.zu] != 0) {
-                        buttons[z.zu].setBackground(color_takeable);
+                if(z.getX_from() == selected_x && z.getY_from() == selected_y) {
+                    if(g.getField().getValue(z.getX_to(),z.getY_to()) != 0) {
+                        buttons[z.getX_from()][z.getY_from()].setBackground(color_takeable);
                     }else{
-                        buttons[z.zu].setBackground(color_available);
+                        buttons[z.getX_from()][z.getY_from()].setBackground(color_available);
                     }
                 }
             }
-            buttons[selected].setBackground(color_selected);
+            buttons[selected_x][selected_y].setBackground(color_selected);
         }
     }
 
-    private int selected = -1;
+    private int selected_x = -1;
+    private int selected_y = -1;
 
-    private void click(int v) {
-        if(selected == -1) {
-            if(b.field[v] * b.currentPlayer > 0) {
-                selected = v;
+    private void click(int x,int y) {
+        if(selected_x == -1) {
+            if(g.getField().getValue(x,y) * g.getActivePlayer() > 0) {
+                selected_x = x;
+                selected_y = y;
             }
         }else{
-            if(v == selected) {
-                selected = -1;
+            if(x == selected_x && selected_y == y) {
+                selected_x = -1;
             }
-            else if(b.field[v] * b.currentPlayer > 0) {
-                selected = v;
+            else if(g.getField().getValue(x,y) * g.getActivePlayer() > 0) {
+                selected_x = x;
+                selected_y = y;
             }else{
-                for(Zug z: b.availableMoves(b.currentPlayer,false)){
-                    if(z.zu == v && z.von == selected) {
-                        b.processMove(z);
-                        Zug bester = b.getBestMove(-1, 5);
-                        if(bester == null) System.exit(-1);
-                        b.processMove(bester);
-
-                        selected = -1;
+                for(Move z: g.getPossibleMoves()){
+                    if(z.getX_from() == x && z.getY_from() == y && z.getX_to() == selected_x && z.getY_to() == selected_y) {
+                        g.move(z);
+                        selected_x = -1;
                         break;
                     }
                 }

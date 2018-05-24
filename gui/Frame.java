@@ -1,5 +1,7 @@
 package gui;
 
+import game.Game;
+
 import javax.swing.*;
 
 /**
@@ -12,7 +14,7 @@ public class Frame extends JFrame{
 
         this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
         this.setSize(800,800);
-        this.add(new GamePanel());
+        this.add(new GamePanel(new Game()));
 
         this.setVisible(true);
     }

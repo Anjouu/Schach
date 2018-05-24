@@ -14,12 +14,48 @@ public class Game{
     private Stack<Move> moves = new Stack<>();
 
     public Game(){
-        field = new Bitmap();
+        reset();
     }
 
+    public void reset(){
+        field = new Bitmap();
+        field.setValue(0,0, (byte) 2);
+        field.setValue(1,0, (byte) 3);
+        field.setValue(2,0, (byte) 4);
+        field.setValue(3,0, (byte) 5);
+        field.setValue(4,0, (byte) 6);
+        field.setValue(5,0, (byte) 4);
+        field.setValue(6,0, (byte) 3);
+        field.setValue(7,0, (byte) 2);
+        field.setValue(0,1, (byte) 1);
+        field.setValue(1,1, (byte) 1);
+        field.setValue(2,1, (byte) 1);
+        field.setValue(3,1, (byte) 1);
+        field.setValue(4,1, (byte) 1);
+        field.setValue(5,1, (byte) 1);
+        field.setValue(6,1, (byte) 1);
+        field.setValue(7,1, (byte) 1);
+        field.setValue(0,7, (byte) -2);
+        field.setValue(1,7, (byte) -3);
+        field.setValue(2,7, (byte) -4);
+        field.setValue(3,7, (byte) -5);
+        field.setValue(4,7, (byte) -6);
+        field.setValue(5,7, (byte) -4);
+        field.setValue(6,7, (byte) -3);
+        field.setValue(7,7, (byte) -2);
+        field.setValue(0,6, (byte) -1);
+        field.setValue(1,6, (byte) -1);
+        field.setValue(2,6, (byte) -1);
+        field.setValue(3,6, (byte) -1);
+        field.setValue(4,6, (byte) -1);
+        field.setValue(5,6, (byte) -1);
+        field.setValue(6,6, (byte) -1);
+        field.setValue(7,6, (byte) -1);
+
+    }
 
     public int evaluate() {
-        return 0;
+        return (int)(1000 * Math.random());
     }
 
     public byte getActivePlayer() {
@@ -54,7 +90,7 @@ public class Game{
                 if (Math.abs(field.getValue(i, j)) == (1 * activePlayer)){
                     if (j != 7 || j != 0){
                         if (field.getValue(i, j+activePlayer) == 0){
-                            moves.add(Move());
+                            //moves.add(Move());
                         }
                     }
                 }
