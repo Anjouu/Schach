@@ -112,7 +112,7 @@ public class GamePanel extends JPanel{
                 selected_y = y;
             }else{
                 for(Move z: g.getPossibleMoves()){
-                    if(z.getX_from() == x && z.getY_from() == y && z.getX_to() == selected_x && z.getY_to() == selected_y) {
+                    if(z.getX_from() == selected_x && z.getY_from() == selected_y && z.getX_to() == x && z.getY_to() == y) {
                         g.move(z);
                         selected_x = -1;
                         break;
