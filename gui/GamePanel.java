@@ -116,7 +116,7 @@ public class GamePanel extends JPanel{
                     if(z.getX_from() == selected_x && z.getY_from() == selected_y && z.getX_to() == x && z.getY_to() == y) {
                         g.move(z);
 
-                        g.move(KI.getBestMove(g,3));
+                        g.move(KI.getBestMove(g,8));
 
                         selected_x = -1;
                         break;

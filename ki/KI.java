@@ -18,7 +18,7 @@ public abstract class KI {
         KI.max_depth = depth;
         KI.g = g;
 
-        minimax(g.getActivePlayer(), depth, -1000000,1000000);
+        minimax(g.getActivePlayer(), depth, -100000000,10000000);
         return bestMove;
     }
 

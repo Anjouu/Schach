@@ -16,7 +16,10 @@ public class Game{
 
 
 
-    private static final int[] EVALUATE_PRICE = new int[]{0,100,824,521,572,1710,100000};
+    private static final int[] EVALUATE_PRICE = new int[]{0,100,824,521,572,1710,10000};
+    private static final int EVALUATE_ROOK_ATTACK_KING_FILE = 51;
+    private static final int EVALUATE_ROOK_7TH_RANK = 30;
+
 
     public Game(){
         reset();
@@ -67,7 +70,11 @@ public class Game{
         for(int i = 0; i < 8; i++){
             for(int n = 0; n <8; n++){
                 if(field.getValue(i,n) != 0){
-                    v += EVALUATE_PRICE[Math.abs(field.getValue(i,n))] * field.getValue(i,n) > 0 ? 1:-1;
+                    v += EVALUATE_PRICE[Math.abs(field.getValue(i,n))] * (field.getValue(i,n) > 0 ? 1:-1);
+
+                    if(Math.abs(v) == 2){
+                        if(v * n == 6 || v * n == -1) v+=1;
+                    }
                 }
             }
         }
