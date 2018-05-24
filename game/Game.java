@@ -19,6 +19,7 @@ public class Game{
 
     public void reset(){
         field = new Bitmap();
+        activePlayer = 1;
         field.setValue(0,0, (byte) 2);
         field.setValue(1,0, (byte) 3);
         field.setValue(2,0, (byte) 4);

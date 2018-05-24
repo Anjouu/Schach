@@ -70,4 +70,16 @@ public class Move {
     public void setMap_target(byte map_target) {
         this.map_target = map_target;
     }
+
+    @Override
+    public String toString() {
+        return "Move{" +
+                "x_from=" + x_from +
+                ", y_from=" + y_from +
+                ", map_from=" + map_from +
+                ", x_to=" + x_to +
+                ", y_to=" + y_to +
+                ", map_target=" + map_target +
+                '}';
+    }
 }

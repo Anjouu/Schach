@@ -40,7 +40,7 @@ public class GamePanel extends JPanel{
                 b.setFocusPainted(false);
                 b.setOpaque(true);
                 b.setFont(new Font("Arial", 1, 50));
-                
+
                 final int x = n;
                 final int y = i;
 
@@ -84,9 +84,9 @@ public class GamePanel extends JPanel{
             for(Move z:g.getPossibleMoves()){
                 if(z.getX_from() == selected_x && z.getY_from() == selected_y) {
                     if(g.getField().getValue(z.getX_to(),z.getY_to()) != 0) {
-                        buttons[z.getX_from()][z.getY_from()].setBackground(color_takeable);
+                        buttons[z.getX_to()][z.getY_to()].setBackground(color_takeable);
                     }else{
-                        buttons[z.getX_from()][z.getY_from()].setBackground(color_available);
+                        buttons[z.getX_to()][z.getY_to()].setBackground(color_available);
                     }
                 }
             }
