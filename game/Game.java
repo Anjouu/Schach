@@ -8,8 +8,8 @@ import java.util.Stack;
  */
 public class Game implements GameInterface<Move>{
 
-    Bitmap[] field = new Bitmap[12];
-    int activePlayer;
+    private Bitmap[] field = new Bitmap[12];
+    private int activePlayer;
 
     public Game(){
         for(int i=0; i<12; i++){
@@ -32,10 +32,10 @@ public class Game implements GameInterface<Move>{
 
     @Override
     public void move(Move move) {
-        this.bitmaps[move.getBitmapA().getBitmapIndex()] = move.getBitmapA();
-        this.bitmaps[move.getBitmapB().getBitmapIndex()] = move.getBitmapB();
+        this.field[move.getBitmapA().getBitmapIndex()] = move.getBitmapA();
+        this.field[move.getBitmapB().getBitmapIndex()] = move.getBitmapB();
         this.moves.add(move);
-        this.currentPlayer = -currentPlayer;
+        this.activePlayer = -activePlayer;
     }
 
     @Override
