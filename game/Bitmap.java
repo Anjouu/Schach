@@ -6,10 +6,10 @@ package game;
 public class Bitmap{
 
 
-    private short[][] bitmap;
+    private byte[][] bitmap;
 
     public Bitmap() {
-        bitmap = new short[8][8];
+        bitmap = new byte[8][8];
     }
 
     public boolean isValid(int x, int y) {
@@ -18,6 +18,10 @@ public class Bitmap{
 
     public short getValue(int x, int y) {
         return bitmap[x][y];
+    }
+
+    public void setValue(int x, int y, byte val){
+        bitmap[x][y] = val;
     }
 
     public Bitmap copy() {

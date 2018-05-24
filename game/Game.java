@@ -29,8 +29,8 @@ public class Game{
     public void move(Move move) {
 
 
-        if(move.getMap_target() == -1){
-
+        if(move.getMap_target() == 0){
+            this.field.
         }
 
         this.field[move.getMap_from()].move();
