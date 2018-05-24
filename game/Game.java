@@ -6,32 +6,32 @@ import java.util.Stack;
 /**
  * Created by Anwender on 24.05.2018.
  */
-public class Game implements GameInterface<Move>{
+public class Game{
 
-    private Bitmap[] field = new Bitmap[12];
+    private Bitmap field;
     private int activePlayer;
 
+    private Stack<Move> moves = new Stack<>();
+
     public Game(){
-        for(int i=0; i<12; i++){
-            field[i] = new Bitmap(i);
-        }
+        field = new Bitmap();
     }
 
 
-    private Stack<Move> moves = new Stack<>();
-    @Override
     public int evaluate() {
         return 0;
     }
 
-    @Override
     public int getActivePlayer() {
         return activePlayer;
     }
 
-    @Override
     public void move(Move move) {
 
+
+        if(move.getMap_target() == -1){
+
+        }
 
         this.field[move.getMap_from()].move();
 
@@ -42,7 +42,6 @@ public class Game implements GameInterface<Move>{
         this.activePlayer = -activePlayer;
     }
 
-    @Override
     public void undoMove() {
         this.activePlayer = -activePlayer;
         Move m = moves.pop();
@@ -50,12 +49,10 @@ public class Game implements GameInterface<Move>{
         this.field[m.getBitmapA().getBitmapIndex()] = pre
     }
 
-    @Override
     public void orderPossibleMoves(LinkedList moves) {
 
     }
 
-    @Override
     public LinkedList getPossibleMoves() {
         return null;
     }
