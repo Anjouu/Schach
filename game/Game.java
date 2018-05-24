@@ -63,4 +63,16 @@ public class Game{
 
         return moves;
     }
+
+
+
+
+
+    public Bitmap getField() {
+        return field;
+    }
+
+    public Stack<Move> getMoves() {
+        return moves;
+    }
 }
