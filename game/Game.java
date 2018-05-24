@@ -30,7 +30,7 @@ public class Game{
 
 
         if(move.getMap_target() == 0){
-            this.field.
+            this.field.setValue(move.getX_from(), move.getY_from(),(byte)1);
         }
 
         this.field[move.getMap_from()].move();
@@ -47,6 +47,11 @@ public class Game{
         Move m = moves.pop();
         Move prev = moves.get(moves.size()-1);
         this.field[m.getBitmapA().getBitmapIndex()] = pre
+    }
+
+    public static void main(String[] args) {
+        byte b = 12;
+        System.out.println(b);
     }
 
     public void orderPossibleMoves(LinkedList moves) {
