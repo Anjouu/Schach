@@ -42,11 +42,25 @@ public class Game{
         this.field.setValue(move.getX_to(), move.getY_to(),move.getMap_target());
     }
 
-    public void orderPossibleMoves(LinkedList moves) {
+    public void orderPossibleMoves(LinkedList<Move> moves) {
 
     }
 
-    public LinkedList getPossibleMoves() {
-        return null;
+    public LinkedList<Move> getPossibleMoves() {
+        LinkedList<Move> moves = new LinkedList<>();
+
+        for(int i=0; i<8; i++){
+            for(int j=0; j<8; j++){
+                if (Math.abs(field.getValue(i, j)) == (1 * activePlayer)){
+                    if (j != 7 || j != 0){
+                        if (field.getValue(i, j+activePlayer) == 0){
+                            moves.add(Move());
+                        }
+                    }
+                }
+            }
+        }
+
+        return moves;
     }
 }
