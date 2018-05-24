@@ -11,10 +11,6 @@ package game;
 public interface MoveInterface<B extends BitmapInterface> {
 
 
-
-
-
-
     public void setBitmapA(B b);
 
     public void setBitmapB(B b);
