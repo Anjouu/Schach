@@ -16,6 +16,8 @@ public class Game{
 
 
 
+    private static final int[][] SRINGER_DIRECTIONS = new int[][]{{1,2},{2,1},{1,-2},{-2,1},{-1,2},{2,-1},{-1,-2},{-2,-1}};
+
     private static final int[] EVALUATE_PRICE = new int[]{0,100,824,521,572,1710,10000};
     private static final int EVALUATE_ROOK_ATTACK_KING_FILE = 51;
     private static final int EVALUATE_ROOK_7TH_RANK = 30;
@@ -134,6 +136,13 @@ public class Game{
                     }
                 }
 
+                if (field.getValue(i, j) == activePlayer * 3){ // Springer
+                    for(int[] ar:SRINGER_DIRECTIONS){
+                        if(this.field.isValid(i + ar[0], j + ar[1]) && this.field.getValue(i + ar[0],j + ar[1]) * activePlayer <= 0){
+                            moves.add(new Move(i,j,(byte)(activePlayer * 3), (byte)(i + ar[0]), (byte)(j + ar[1]), this.field.getValue(i + ar[0],j + ar[1])));
+                        }
+                    }
+                }
 
 
 
