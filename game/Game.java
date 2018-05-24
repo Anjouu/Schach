@@ -15,7 +15,6 @@ public class Game implements GameInterface<Move>{
         for(int i=0; i<12; i++){
             field[i] = new Bitmap(i);
         }
-        
     }
 
 
