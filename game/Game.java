@@ -1,5 +1,6 @@
 package game;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Stack;
 
@@ -104,7 +105,7 @@ public class Game{
         for(byte i=0; i<8; i++){
             for(byte j=0; j<8; j++){
                 if (field.getValue(i, j) == activePlayer){
-                    if ((j == 1 || j == 6)&&(field.getValue(i, j + 2*activePlayer) == 0)){ // Bauer 2 nach vorne
+                    if ((j == 1 && activePlayer == 1|| j == 6 && activePlayer == -1)&&(field.getValue(i, j + 2*activePlayer) == 0)){ // Bauer 2 nach vorne
                         moves.add(new Move(i,j,activePlayer,i,(byte)(j + 2*activePlayer),(byte) 0));
                     }
                     if (j != 0 && j != 7) {
@@ -131,8 +132,19 @@ public class Game{
     }
 
 
+    @Override
+    public String toString() {
+        String s = "";
+        for(int i = 0; i < 8; i++){
 
+            for(int n = 0; n < 8; n++){
+                s+=this.field.getValue(n,i);
+            }
 
+            s+="\n";
+        }
+        return s;
+    }
 
     public Bitmap getField() {
         return field;

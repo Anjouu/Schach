@@ -2,6 +2,7 @@ package gui;
 
 import game.Game;
 import game.Move;
+import ki.KI;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -114,6 +115,9 @@ public class GamePanel extends JPanel{
                 for(Move z: g.getPossibleMoves()){
                     if(z.getX_from() == selected_x && z.getY_from() == selected_y && z.getX_to() == x && z.getY_to() == y) {
                         g.move(z);
+
+                        g.move(KI.getBestMove(g,3));
+
                         selected_x = -1;
                         break;
                     }
