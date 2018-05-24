@@ -29,9 +29,8 @@ public interface GameInterface<M extends MoveInterface> {
      * selbsterklärend.
      * tipp: benutze einen Stack von Zügen :)
      *
-     * @param move
      */
-    public void undoMove(M move);
+    public void undoMove();
 
     /**
      * sortiert die Züge nach relevanz
