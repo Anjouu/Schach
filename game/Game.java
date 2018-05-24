@@ -38,8 +38,6 @@ public class Game{
         this.activePlayer = (byte)-activePlayer;
         Move move = moves.pop();
 
-        
-
         this.field.setValue(move.getX_from(), move.getY_from(),move.getMap_from());
         this.field.setValue(move.getX_to(), move.getY_to(),move.getMap_target());
     }
