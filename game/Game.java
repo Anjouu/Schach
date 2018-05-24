@@ -40,7 +40,10 @@ public class Game implements GameInterface<Move>{
 
     @Override
     public void undoMove() {
-
+        this.activePlayer = -activePlayer;
+        Move m = moves.pop();
+        Move prev = moves.get(moves.size()-1);
+        this.field[m.getBitmapA().getBitmapIndex()] = pre
     }
 
     @Override
