@@ -13,6 +13,10 @@ public class Game{
 
     private Stack<Move> moves = new Stack<>();
 
+
+
+    private static final int[] EVALUATE_PRICE = new int[]{0,100,824,521,572,1710,100000};
+
     public Game(){
         reset();
     }
@@ -56,7 +60,18 @@ public class Game{
     }
 
     public int evaluate() {
-        return (int)(1000 * Math.random());
+
+        int v = 0;
+
+        for(int i = 0; i < 8; i++){
+            for(int n = 0; n <8; n++){
+                if(field.getValue(i,n) != 0){
+                    v += EVALUATE_PRICE[Math.abs(field.getValue(i,n))] * field.getValue(i,n) > 0 ? 1:-1;
+                }
+            }
+        }
+
+        return v;
     }
 
     public byte getActivePlayer() {
