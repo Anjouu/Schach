@@ -3,7 +3,7 @@ package game;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public interface GameInterface<M extends MoveInterface> {
+public interface GameInterface {
 
     /**
      * bewertet die stellung
@@ -23,7 +23,7 @@ public interface GameInterface<M extends MoveInterface> {
      * führt einen zug aus
      * @param move
      */
-    public void move(M move);
+    public void move(Move move);
 
     /**
      * selbsterklärend.
@@ -37,12 +37,12 @@ public interface GameInterface<M extends MoveInterface> {
      * Wichtig damit die suche effizient wird.
      * @param moves
      */
-    public void orderPossibleMoves(LinkedList<M> moves);
+    public void orderPossibleMoves(LinkedList<Move> moves);
 
     /**
      * gibt die möglichen Züge für den aktuellen spieler wieder
      * @return
      */
-    public LinkedList<M> getPossibleMoves();
+    public LinkedList<Move> getPossibleMoves();
 
 }

@@ -32,6 +32,11 @@ public class Game implements GameInterface<Move>{
 
     @Override
     public void move(Move move) {
+
+
+        this.field[move.getMap_from()].move();
+
+
         this.field[move.getBitmapA().getBitmapIndex()] = move.getBitmapA();
         this.field[move.getBitmapB().getBitmapIndex()] = move.getBitmapB();
         this.moves.add(move);

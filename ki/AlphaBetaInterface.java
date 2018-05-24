@@ -1,9 +1,9 @@
 package ki;
 
-import game.MoveInterface;
+import game.Move;
 
-public interface AlphaBetaInterface<M extends MoveInterface> {
+public interface AlphaBetaInterface {
 
-    public M getBestMove(int depth);
+    public Move getBestMove(int depth);
 
 }
