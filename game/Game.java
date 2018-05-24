@@ -87,19 +87,23 @@ public class Game{
 
         for(byte i=0; i<8; i++){
             for(byte j=0; j<8; j++){
-                if (Math.abs(field.getValue(i, j)) == (1 * activePlayer)){
+                if (field.getValue(i, j) == activePlayer){
+                    //if (j == 1 && field.getValue(i,j) == 1){
+
+                    //}
                     if (j != 0 && j != 7) {
                         if (field.getValue(i, j + activePlayer) == 0) { // Bauer nach vorne ohne Schlagen
                             moves.add(new Move(i, j, (byte) (1 * activePlayer), i, (byte) (j + activePlayer), (byte) 0));
                         }
+
                         if (i != 0) {
                             if (field.getValue(i - 1, j + activePlayer) != 0) { // Bauer schlägt nach links
-                                moves.add(new Move(i, j, (byte) (1 * activePlayer), (byte) (i - 1), (byte) (j + activePlayer), field.getValue(i - 1, j + activePlayer)));
+                                moves.add(new Move(i, j, activePlayer, (byte) (i - 1), (byte) (j + activePlayer), field.getValue(i - 1, j + activePlayer)));
                             }
                         }
                         if (i != 7) {
                             if (field.getValue(i + 1, j + activePlayer) != 0) { // Bauer schlägt nach rechts
-                                moves.add(new Move(i, j, (byte) (1 * activePlayer), (byte) (i + 1), (byte) (j + activePlayer), field.getValue(i + 1, j + activePlayer)));
+                                moves.add(new Move(i, j, activePlayer, (byte) (i + 1), (byte) (j + activePlayer), field.getValue(i + 1, j + activePlayer)));
                             }
                         }
                     }
