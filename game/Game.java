@@ -49,4 +49,16 @@ public class Game{
     public LinkedList getPossibleMoves() {
         return null;
     }
+
+
+
+
+
+    public Bitmap getField() {
+        return field;
+    }
+
+    public Stack<Move> getMoves() {
+        return moves;
+    }
 }
