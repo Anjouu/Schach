@@ -183,6 +183,40 @@ public class Game{
                         }
                     }
                 }
+
+                if (field.getValue(i, j) == activePlayer * 5) { // Dame
+                    for (int dir : TURM_DIRECTIONS) {
+                        int k = dir;
+                        while (i + k < 8 && i + k >= 0 && field.getValue(i + k, j) == 0) { // Turmbewegung auf x-Achse
+                            moves.add(new Move(i, j, (byte) (activePlayer * 5), (byte) (i + k), j, (byte) 0));
+                            k += dir;
+                        }
+                        if (i + k < 8 && i + k >= 0 && field.getValue(i + k, j) * activePlayer < 0) { // Turm schlägt auf x-Achse
+                            moves.add(new Move(i, j, (byte) (activePlayer * 5), (byte) (i + k), j, field.getValue(i + k, j)));
+                        }
+                        k = dir;
+                        while (j + k < 8 && j + k >= 0 && field.getValue(i, j + k) == 0) { // Turmbewegung auf y-Achse
+                            moves.add(new Move(i, j, (byte) (activePlayer * 5), i, (byte) (j + k), (byte) 0));
+                            k += dir;
+                        }
+                        if (j + k < 8 && j + k >= 0 && field.getValue(i, j + k) * activePlayer < 0) { // Turm schlägt auf y-Achse
+                            moves.add(new Move(i, j, (byte) (activePlayer * 5), i, (byte) (j + k), field.getValue(i, j + k)));
+                        }
+                        k = dir;
+                    }
+                    for (int[] dir : LAEUFER_DIRECTIONS) {
+                        int kx = dir[0];
+                        int ky = dir[1];
+                        while (i + kx < 8 && i + kx >= 0 && j + ky < 8 && j + ky >= 0 && field.getValue(i + kx, j + ky) == 0){
+                            moves.add(new Move(i, j,(byte)(activePlayer * 5), (byte) (i + kx), (byte) (j + ky), (byte) 0));
+                            kx += dir[0];
+                            ky += dir[1];
+                        }
+                        if (i + kx < 8 && i + kx >= 0 && j + ky < 8 && j + ky >= 0 && field.getValue(i + kx, j + ky) * activePlayer < 0){
+                            moves.add(new Move(i, j,(byte)(activePlayer * 5), (byte) (i + kx), (byte) (j + ky), field.getValue(i + kx, j + ky)));
+                        }
+                    }
+                }
             }
         }
 
