@@ -1,8 +1,6 @@
 package game;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Created by Anwender on 24.05.2018.
@@ -13,7 +11,7 @@ public class Game{
     private byte activePlayer;
 
     private Stack<Move> moves = new Stack<>();
-
+    private HashMap<BitSet, Integer> evaluations = new HashMap<>();
 
 
     private static final int[][] SRINGER_DIRECTIONS = new int[][]{{1,2},{2,1},{1,-2},{-2,1},{-1,2},{2,-1},{-1,-2},{-2,-1}};
@@ -70,21 +68,30 @@ public class Game{
 
     public int evaluate() {
 
-        int v = 0;
 
-        for(int i = 0; i < 8; i++){
-            for(int n = 0; n <8; n++){
-                if(field.getValue(i,n) != 0){
-                    v += EVALUATE_PRICE[Math.abs(field.getValue(i,n))] * (field.getValue(i,n) > 0 ? 1:-1);
+        BitSet hash = this.field.hash();
+        if(evaluations.containsKey(hash)){
+            return evaluations.get(hash);
+        }else{
+            int v = 0;
 
-                    if(Math.abs(v) == 2){
-                        if(v * n == 6 || v * n == -1) v+=1;
+            for(int i = 0; i < 8; i++){
+                for(int n = 0; n <8; n++){
+                    if(field.getValue(i,n) != 0){
+                        v += EVALUATE_PRICE[Math.abs(field.getValue(i,n))] * (field.getValue(i,n) > 0 ? 1:-1);
+
+                        if(Math.abs(v) == 2){
+                            if(v * n == 6 || v * n == -1) v+=1;
+                        }
                     }
                 }
             }
+
+            evaluations.put(hash, v);
+            return v;
         }
 
-        return v;
+
     }
 
     public byte getActivePlayer() {
