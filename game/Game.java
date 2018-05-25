@@ -159,10 +159,10 @@ public class Game{
                         while (j + k < 8 && j + k >= 0 && field.getValue(i, j + k) == 0){ // Turmbewegung auf y-Achse
                             moves.add(new Move(i, j, (byte) (activePlayer * 2), i, (byte)(j + k), (byte) 0));
                             k += dir;
-                        } k = dir;
+                        }
                         if (j + k < 8 && j + k >= 0 && field.getValue(i, j + k) * activePlayer < 0) { // Turm schlägt auf y-Achse
                             moves.add(new Move(i, j, (byte) (activePlayer * 2), i, (byte)(j + k), field.getValue(i, j + k)));
-                        }
+                        } k = dir;
                     }
                 }
 
