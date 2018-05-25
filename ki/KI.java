@@ -18,7 +18,12 @@ public abstract class KI {
         KI.max_depth = depth;
         KI.g = g;
 
+        g.hashes = 0;
+        g.calculations = 0;
+
+
         minimax(g.getActivePlayer(), depth, -100000000,10000000);
+        System.out.println("hashes:" + g.hashes + "   calculations:"+ g.calculations);
         return bestMove;
     }
 
@@ -35,8 +40,9 @@ public abstract class KI {
             g.undoMove();
             if (wert > max) {
                 max = wert;
-                if (max >= beta)
+                if (max >= beta){
                     break;
+                }
                 if (tiefe == max_depth)
                     bestMove = m;
             }

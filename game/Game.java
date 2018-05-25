@@ -13,6 +13,8 @@ public class Game{
     private Stack<Move> moves = new Stack<>();
     private HashMap<BitSet, Integer> evaluations = new HashMap<>();
 
+    public int hashes;
+    public int calculations;
 
     private static final int[][] SRINGER_DIRECTIONS = new int[][]{{1,2},{2,1},{1,-2},{-2,1},{-1,2},{2,-1},{-1,-2},{-2,-1}};
 
@@ -22,6 +24,7 @@ public class Game{
     private static final int[] EVALUATE_PRICE = new int[]{0,100,824,521,572,1710,10000};
     private static final int EVALUATE_ROOK_ATTACK_KING_FILE = 51;
     private static final int EVALUATE_ROOK_7TH_RANK = 30;
+
 
 
     public Game(){
@@ -68,9 +71,9 @@ public class Game{
 
     public int evaluate() {
 
-
         BitSet hash = this.field.hash();
         if(evaluations.containsKey(hash)){
+            hashes ++;
             return evaluations.get(hash);
         }else{
             int v = 0;
@@ -87,10 +90,10 @@ public class Game{
                 }
             }
 
+            calculations ++;
             evaluations.put(hash, v);
             return v;
         }
-
 
     }
 

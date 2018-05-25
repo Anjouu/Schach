@@ -25,6 +25,27 @@ public class GamePanel extends JPanel{
     public Color color_available = Color.pink;
     public Color color_takeable = Color.red;
 
+    private static ImageIcon[][] icons = new ImageIcon[6][2];
+
+    static {
+        for(int i = 0; i < 6; i++) {
+            for(int n = 0; n < 2; n++) {
+                int a = i;
+                if(a == 1 || a== 2){
+                    a ++;
+                }else if(a == 3){
+                    a = 1;
+                }
+                icons[a][n] = new ImageIcon("src/gui/"+(i + 1)+""+(n +1) +".gif");
+                icons[a][n].setImage( icons[a][n].getImage().getScaledInstance(80,80,Image.SCALE_DEFAULT));
+            }
+        }
+    }
+
+    private ImageIcon getIcon(int x, int y) {
+        if(g.getField().getValue(x,y) == 0) return null;
+        return icons[(int)Math.abs(g.getField().getValue(x,y)) - 1][g.getField().getValue(x,y) > 0 ? 0:1];
+    }
 
     public GamePanel(Game g) {
         super();
@@ -72,12 +93,12 @@ public class GamePanel extends JPanel{
         for(int i = 0; i < 8; i++) {
             for(int n = 0; n < 8; n++) {
                 buttons[i][n].setBackground((i % 2 == 1 && n % 2 == 0 || i % 2 == 0 && n % 2 == 1 ? color_black:color_white)) ;
-                //buttons[i][n].setIcon(getIcon(v));
-                if(g.getField().getValue(i,n) != 0){
-                    buttons[i][n].setText(g.getField().getValue(i,n) + "");
-                }else{
-                    buttons[i][n].setText("");
-                }
+                buttons[i][n].setIcon(getIcon(i,n));
+//                if(g.getField().getValue(i,n) != 0){
+//                    buttons[i][n].setText(g.getField().getValue(i,n) + "");
+//                }else{
+//                    buttons[i][n].setText("");
+//                }
 
             }
         }
@@ -116,7 +137,7 @@ public class GamePanel extends JPanel{
                     if(z.getX_from() == selected_x && z.getY_from() == selected_y && z.getX_to() == x && z.getY_to() == y) {
                         g.move(z);
 
-                        g.move(KI.getBestMove(g,5));
+                        g.move(KI.getBestMove(g,6));
 
                         selected_x = -1;
                         break;
