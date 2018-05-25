@@ -217,6 +217,21 @@ public class Game{
                         }
                     }
                 }
+                if (field.getValue(i, j) == activePlayer * 6){
+                    for (int dir : TURM_DIRECTIONS){
+                        if(i + dir < 8 && i + dir >= 0 && field.getValue(i + dir, j) <= 0){
+                            moves.add(new Move(i, j,(byte)(activePlayer * 6), (byte) (i + dir), j, field.getValue(i + dir, j)));
+                        }
+                        if(j + dir < 8 && j + dir>= 0 && field.getValue(i, j + dir) <= 0){
+                            moves.add(new Move(i, j,(byte)(activePlayer * 6), i, (byte)(j + dir), field.getValue(i , j + dir)));
+                        }
+                    }
+                    for (int[] dir : LAEUFER_DIRECTIONS){
+                        if (i + dir[0] < 8 && i + dir[0] >= 0 && j + dir[1] < 8 && j + dir[1] >= 0 && field.getValue(i + dir[0], j + dir[1]) <= 0){
+                            moves.add(new Move(i, j, (byte)(activePlayer * 6), (byte)(i + dir[0]),(byte)(j + dir[1]), field.getValue(i + dir[0], j + dir[1])));
+                        }
+                    }
+                }
             }
         }
 
