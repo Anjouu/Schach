@@ -18,6 +18,8 @@ public class Game{
 
     private static final int[][] SRINGER_DIRECTIONS = new int[][]{{1,2},{2,1},{1,-2},{-2,1},{-1,2},{2,-1},{-1,-2},{-2,-1}};
 
+    private static final int[] DIRECTIONS = new int[]{1,-1};
+
     private static final int[] EVALUATE_PRICE = new int[]{0,100,824,521,572,1710,10000};
     private static final int EVALUATE_ROOK_ATTACK_KING_FILE = 51;
     private static final int EVALUATE_ROOK_7TH_RANK = 30;
@@ -140,6 +142,26 @@ public class Game{
                     for(int[] ar:SRINGER_DIRECTIONS){
                         if(this.field.isValid(i + ar[0], j + ar[1]) && this.field.getValue(i + ar[0],j + ar[1]) * activePlayer <= 0){
                             moves.add(new Move(i,j,(byte)(activePlayer * 3), (byte)(i + ar[0]), (byte)(j + ar[1]), this.field.getValue(i + ar[0],j + ar[1])));
+                        }
+                    }
+                }
+
+                if (field.getValue(i,j)  == activePlayer *2){ // Türme
+                    for (int dir:DIRECTIONS) {
+                        int k = dir;
+                        while (i + k < 8 && i + k >= 0 && field.getValue(i + k, j) == 0) { // Turmbewegung auf x-Achse
+                            moves.add(new Move(i, j, (byte) (activePlayer * 2), (byte) (i + k), j, (byte) 0));
+                            k += dir;
+                        }
+                        if (i + k < 8 && i + k >= 0 && field.getValue(i + k, j) * activePlayer < 0) { // Turm schlägt auf x-Achse
+                            moves.add(new Move(i, j, (byte) (activePlayer * 2), (byte) (i + k), j, field.getValue(i + k, j)));
+                        } k = dir;
+                        while (j + k < 8 && j + k >= 0 && field.getValue(i, j + k) == 0){ // Turmbewegung auf y-Achse
+                            moves.add(new Move(i, j, (byte) (activePlayer * 2), i, (byte)(j + k), (byte) 0));
+                            k += dir;
+                        } k = dir;
+                        if (j + k < 8 && j + k >= 0 && field.getValue(i, j + k) * activePlayer < 0) { // Turm schlägt auf y-Achse
+                            moves.add(new Move(i, j, (byte) (activePlayer * 2), i, (byte)(j + k), field.getValue(i, j + k)));
                         }
                     }
                 }
