@@ -16,14 +16,14 @@ public class Game{
     public int hashes;
     public int calculations;
 
-    private static final int[][] SRINGER_DIRECTIONS = new int[][]{{1,2},{2,1},{1,-2},{-2,1},{-1,2},{2,-1},{-1,-2},{-2,-1}};
+    public static final int[][] SRINGER_DIRECTIONS = new int[][]{{1,2},{2,1},{1,-2},{-2,1},{-1,2},{2,-1},{-1,-2},{-2,-1}};
 
-    private static final int[] TURM_DIRECTIONS = new int[]{1,-1};
-    private static final int[][] LAEUFER_DIRECTIONS = new int[][]{{1,1},{1,-1},{-1,1},{-1,-1}};
+    public static final int[] TURM_DIRECTIONS = new int[]{1,-1};
+    public static final int[][] LAEUFER_DIRECTIONS = new int[][]{{1,1},{1,-1},{-1,1},{-1,-1}};
 
-    private static final int[] EVALUATE_PRICE = new int[]{0,100,824,521,572,1710,10000};
-    private static final int EVALUATE_ROOK_ATTACK_KING_FILE = 51;
-    private static final int EVALUATE_ROOK_7TH_RANK = 30;
+    public static final int[] EVALUATE_PRICE = new int[]{0,100,824,521,572,1710,10000};
+    public static final int EVALUATE_ROOK_ATTACK_KING_FILE = 51;
+    public static final int EVALUATE_ROOK_7TH_RANK = 30;
 
 
 
@@ -119,6 +119,21 @@ public class Game{
 
     public void orderPossibleMoves(LinkedList<Move> moves) {
 
+        moves.sort(new Comparator<Move>() {
+            @Override
+            public int compare(Move o1, Move o2) {
+                int a1 = o1.importance();
+                int a2 = o2.importance();
+                if(a1 > a2) return -1;
+                if(a2 > a1) return 1;
+                return 0;
+            }
+        });
+
+        while(moves.get(moves.size()-1).importance() == 20 && moves.size() > 10){
+            moves.remove(moves.size()-1);
+        }
+
     }
 
 
@@ -127,27 +142,42 @@ public class Game{
 
         for(byte i=0; i<8; i++){
             for(byte j=0; j<8; j++) {
-                if (field.getValue(i, j) == activePlayer) { // Bauern
-                    if ((j == 1 && activePlayer == 1 || j == 6 && activePlayer == -1) && (field.getValue(i, j + 2 * activePlayer) == 0) && (field.getValue(i, j + activePlayer) == 0)) { // Bauer zwei nach vorne
-                        moves.add(new Move(i, j, activePlayer, i, (byte) (j + 2 * activePlayer), (byte) 0));
-                    }
-                    if (j != 0 && j != 7) {
-                        if (field.getValue(i, j + activePlayer) == 0) { // Bauer nach vorne ohne Schlagen
-                            moves.add(new Move(i, j, activePlayer, i, (byte) (j + activePlayer), (byte) 0));
-                        }
 
-                        if (i != 0) {
-                            if (field.getValue(i - 1, j + activePlayer) * activePlayer < 0) { // Bauer schlägt nach links
-                                moves.add(new Move(i, j, activePlayer, (byte) (i - 1), (byte) (j + activePlayer), field.getValue(i - 1, j + activePlayer)));
-                            }
+                if (field.getValue(i, j) == activePlayer * 5) { // Dame
+                    for (int dir : TURM_DIRECTIONS) {
+                        int k = dir;
+                        while (i + k < 8 && i + k >= 0 && field.getValue(i + k, j) == 0) { // Turmbewegung auf x-Achse
+                            moves.add(new Move(i, j, (byte) (activePlayer * 5), (byte) (i + k), j, (byte) 0));
+                            k += dir;
                         }
-                        if (i != 7) {
-                            if (field.getValue(i + 1, j + activePlayer) * activePlayer < 0) { // Bauer schlägt nach rechts
-                                moves.add(new Move(i, j, activePlayer, (byte) (i + 1), (byte) (j + activePlayer), field.getValue(i + 1, j + activePlayer)));
-                            }
+                        if (i + k < 8 && i + k >= 0 && field.getValue(i + k, j) * activePlayer < 0) { // Turm schlägt auf x-Achse
+                            moves.add(new Move(i, j, (byte) (activePlayer * 5), (byte) (i + k), j, field.getValue(i + k, j)));
+                        }
+                        k = dir;
+                        while (j + k < 8 && j + k >= 0 && field.getValue(i, j + k) == 0) { // Turmbewegung auf y-Achse
+                            moves.add(new Move(i, j, (byte) (activePlayer * 5), i, (byte) (j + k), (byte) 0));
+                            k += dir;
+                        }
+                        if (j + k < 8 && j + k >= 0 && field.getValue(i, j + k) * activePlayer < 0) { // Turm schlägt auf y-Achse
+                            moves.add(new Move(i, j, (byte) (activePlayer * 5), i, (byte) (j + k), field.getValue(i, j + k)));
+                        }
+                        k = dir;
+                    }
+                    for (int[] dir : LAEUFER_DIRECTIONS) {
+                        int kx = dir[0];
+                        int ky = dir[1];
+                        while (i + kx < 8 && i + kx >= 0 && j + ky < 8 && j + ky >= 0 && field.getValue(i + kx, j + ky) == 0){
+                            moves.add(new Move(i, j,(byte)(activePlayer * 5), (byte) (i + kx), (byte) (j + ky), (byte) 0));
+                            kx += dir[0];
+                            ky += dir[1];
+                        }
+                        if (i + kx < 8 && i + kx >= 0 && j + ky < 8 && j + ky >= 0 && field.getValue(i + kx, j + ky) * activePlayer < 0){
+                            moves.add(new Move(i, j,(byte)(activePlayer * 5), (byte) (i + kx), (byte) (j + ky), field.getValue(i + kx, j + ky)));
                         }
                     }
                 }
+
+
 
                 if (field.getValue(i, j) == activePlayer * 3) { // Springer
                     for (int[] ar : SRINGER_DIRECTIONS) {
@@ -156,6 +186,8 @@ public class Game{
                         }
                     }
                 }
+
+
 
                 if (field.getValue(i, j) == activePlayer * 2) { // Türme
                     for (int dir : TURM_DIRECTIONS) {
@@ -194,39 +226,6 @@ public class Game{
                     }
                 }
 
-                if (field.getValue(i, j) == activePlayer * 5) { // Dame
-                    for (int dir : TURM_DIRECTIONS) {
-                        int k = dir;
-                        while (i + k < 8 && i + k >= 0 && field.getValue(i + k, j) == 0) { // Turmbewegung auf x-Achse
-                            moves.add(new Move(i, j, (byte) (activePlayer * 5), (byte) (i + k), j, (byte) 0));
-                            k += dir;
-                        }
-                        if (i + k < 8 && i + k >= 0 && field.getValue(i + k, j) * activePlayer < 0) { // Turm schlägt auf x-Achse
-                            moves.add(new Move(i, j, (byte) (activePlayer * 5), (byte) (i + k), j, field.getValue(i + k, j)));
-                        }
-                        k = dir;
-                        while (j + k < 8 && j + k >= 0 && field.getValue(i, j + k) == 0) { // Turmbewegung auf y-Achse
-                            moves.add(new Move(i, j, (byte) (activePlayer * 5), i, (byte) (j + k), (byte) 0));
-                            k += dir;
-                        }
-                        if (j + k < 8 && j + k >= 0 && field.getValue(i, j + k) * activePlayer < 0) { // Turm schlägt auf y-Achse
-                            moves.add(new Move(i, j, (byte) (activePlayer * 5), i, (byte) (j + k), field.getValue(i, j + k)));
-                        }
-                        k = dir;
-                    }
-                    for (int[] dir : LAEUFER_DIRECTIONS) {
-                        int kx = dir[0];
-                        int ky = dir[1];
-                        while (i + kx < 8 && i + kx >= 0 && j + ky < 8 && j + ky >= 0 && field.getValue(i + kx, j + ky) == 0){
-                            moves.add(new Move(i, j,(byte)(activePlayer * 5), (byte) (i + kx), (byte) (j + ky), (byte) 0));
-                            kx += dir[0];
-                            ky += dir[1];
-                        }
-                        if (i + kx < 8 && i + kx >= 0 && j + ky < 8 && j + ky >= 0 && field.getValue(i + kx, j + ky) * activePlayer < 0){
-                            moves.add(new Move(i, j,(byte)(activePlayer * 5), (byte) (i + kx), (byte) (j + ky), field.getValue(i + kx, j + ky)));
-                        }
-                    }
-                }
                 if (field.getValue(i, j) == activePlayer * 6){
                     for (int dir : TURM_DIRECTIONS){
                         if(i + dir < 8 && i + dir >= 0 && field.getValue(i + dir, j) * activePlayer <= 0){
@@ -242,8 +241,34 @@ public class Game{
                         }
                     }
                 }
+
+
+                if (field.getValue(i, j) == activePlayer) { // Bauern
+                    if ((j == 1 && activePlayer == 1 || j == 6 && activePlayer == -1) && (field.getValue(i, j + 2 * activePlayer) == 0) && (field.getValue(i, j + activePlayer) == 0)) { // Bauer zwei nach vorne
+                        moves.add(new Move(i, j, activePlayer, i, (byte) (j + 2 * activePlayer), (byte) 0));
+                    }
+                    if (j != 0 && j != 7) {
+                        if (field.getValue(i, j + activePlayer) == 0) { // Bauer nach vorne ohne Schlagen
+                            moves.add(new Move(i, j, activePlayer, i, (byte) (j + activePlayer), (byte) 0));
+                        }
+
+                        if (i != 0) {
+                            if (field.getValue(i - 1, j + activePlayer) * activePlayer < 0) { // Bauer schlägt nach links
+                                moves.add(new Move(i, j, activePlayer, (byte) (i - 1), (byte) (j + activePlayer), field.getValue(i - 1, j + activePlayer)));
+                            }
+                        }
+                        if (i != 7) {
+                            if (field.getValue(i + 1, j + activePlayer) * activePlayer < 0) { // Bauer schlägt nach rechts
+                                moves.add(new Move(i, j, activePlayer, (byte) (i + 1), (byte) (j + activePlayer), field.getValue(i + 1, j + activePlayer)));
+                            }
+                        }
+                    }
+                }
+
+
             }
         }
+
 
         return moves;
     }

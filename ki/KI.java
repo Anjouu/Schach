@@ -29,6 +29,7 @@ public abstract class KI {
 
     static int minimax(int spieler, int tiefe, int alpha, int beta){
         LinkedList<Move> moves = g.getPossibleMoves();
+        g.orderPossibleMoves(moves);
         if (tiefe == 0 || moves.size() == 0){
             return g.evaluate() * spieler;
         }

@@ -13,6 +13,8 @@ public class Move {
     private byte y_to;
     private byte map_target;
 
+    private int importance;
+
 
     public Move(byte x_from, byte y_from, byte map_from, byte x_to, byte y_to, byte map_target) {
         this.x_from = x_from;
@@ -21,6 +23,17 @@ public class Move {
         this.x_to = x_to;
         this.y_to = y_to;
         this.map_target = map_target;
+
+        this.importance = this.importance();
+    }
+
+    public int importance(){
+        int val = 0;
+
+        val += Game.EVALUATE_PRICE[Math.abs(map_target)];
+        val += Game.EVALUATE_PRICE[Math.abs(map_from)] * 0.2;
+
+        return val;
     }
 
     public byte getX_from() {
@@ -80,6 +93,7 @@ public class Move {
                 ", x_to=" + x_to +
                 ", y_to=" + y_to +
                 ", map_target=" + map_target +
+                ", importance=" + importance +
                 '}';
     }
 }

@@ -9,6 +9,7 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.LinkedList;
 
 /**
  * Created by Luecx on 08.08.2017.
@@ -137,7 +138,12 @@ public class GamePanel extends JPanel{
                     if(z.getX_from() == selected_x && z.getY_from() == selected_y && z.getX_to() == x && z.getY_to() == y) {
                         g.move(z);
 
-                        g.move(KI.getBestMove(g,4));
+                        LinkedList<Move> possible = g.getPossibleMoves();
+                        g.orderPossibleMoves(possible);
+                        for(Move m:possible){
+                            System.out.println(m);
+                        }
+                        g.move(KI.getBestMove(g,6));
 
                         selected_x = -1;
                         break;
