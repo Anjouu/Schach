@@ -10,11 +10,11 @@ public class EricEv implements Evaluator {
     private int activePlayer;
     private int totalScore;
 
-    private static int BAUERN_VALUE = 13;
-    private static int TURM_VALUE = 75;
+    private static int BAUERN_VALUE = 15;
+    private static int TURM_VALUE = 60;
     private static int SPRINGER_VALUE = 25;
     private static int LAEUFER_VALUE = 35;
-    private static int DAMEN_VALUE = 130;
+    private static int DAMEN_VALUE = 115;
     private static int KOENIG_VALUE = 100000;
 
     static final void print_bits(int[][] number) {
@@ -52,25 +52,25 @@ public class EricEv implements Evaluator {
     };
 
     private static int[][] TURM_POSITIONING = new int[][] {
-            {0,2,2,3,3,2,1,-10},
-            {0,2,4,7,6,4,2,-10},
-            {0,2,6,9,8,6,4,-10},
-            {0,2,8,12,10,8,6,-10},
-            {0,2,8,12,10,8,6,-10},
-            {0,2,6,9,8,6,4,-10},
-            {0,2,4,7,6,4,2,-10},
-            {0,2,2,3,3,2,1,-10}
+            {-20,-15,0,7,7,0,-15,-20},
+            {-10,-1,5,10,10,5,-1,-10},
+            {-5,0,7,13,13,7,0,-5},
+            {0,4,10,18,18,10,4,0},
+            {0,4,10,18,18,10,4,0},
+            {-5,0,7,13,13,7,0,-5},
+            {-10,-1,5,10,10,5,-1,-10},
+            {-20,-15,0,7,7,0,-15,-20}
     };
 
     private static int[][] SPRINGER_POSITIONING = new int[][] {
-            {0,2,2,3,3,2,1,-10},
-            {0,2,4,7,6,4,2,-10},
-            {0,2,6,9,8,6,4,-10},
-            {0,2,8,12,10,8,6,-10},
-            {0,2,8,12,10,8,6,-10},
-            {0,2,6,9,8,6,4,-10},
-            {0,2,4,7,6,4,2,-10},
-            {0,2,2,3,3,2,1,-10}
+            {-3,-3,-3,-3,-3,-3,-3,-3},
+            {-3,4,4,4,4,4,4,-3},
+            {-3,4,9,9,9,9,4,-3},
+            {-3,4,9,13,13,9,4,-3},
+            {-3,4,9,13,13,9,4,-3},
+            {-3,4,9,9,9,9,4,-3},
+            {-3,4,4,4,4,4,4,-3},
+            {-3,-3,-3,-3,-3,-3,-3,-3}
     };
 
     private static int[][] LAEUFER_POSITIONING = new int[][] {
@@ -96,17 +96,24 @@ public class EricEv implements Evaluator {
     };
 
     private static int[][] KOENIG_POSITIONING = new int[][] {
-            {0,2,2,3,3,2,1,-10},
-            {0,2,4,7,6,4,2,-10},
-            {0,2,6,9,8,6,4,-10},
-            {0,2,8,12,10,8,6,-10},
-            {0,2,8,12,10,8,6,-10},
-            {0,2,6,9,8,6,4,-10},
-            {0,2,4,7,6,4,2,-10},
-            {0,2,2,3,3,2,1,-10}
+            {40,30,20,20,20,20,30,40},
+            {30,15,15,15,15,15,15,30},
+            {20,15,-2,-2,-2,-2,15,20},
+            {20,15,-2,-10,-10,-2,15,20},
+            {20,15,-2,-10,-10,-2,15,20},
+            {20,15,-2,-2,-2,-2,15,20},
+            {30,15,15,15,15,15,15,30},
+            {40,30,20,20,20,20,30,40},
     };
 
-    private static int[][][] POSITIONINGS = new int[][][]{BAUERN_POSITIONING,TURM_POSITIONING,SPRINGER_POSITIONING,LAEUFER_POSITIONING,DAMEN_POSITIONING,KOENIG_POSITIONING};
+    private static int[][][] POSITIONINGS = new int[][][]{
+            BAUERN_POSITIONING,
+            TURM_POSITIONING,
+            SPRINGER_POSITIONING,
+            LAEUFER_POSITIONING,
+            DAMEN_POSITIONING,
+            KOENIG_POSITIONING
+    };
 
     public static int countFigure(int figure, Bitmap field, int activePlayer){
         int number = 0;
@@ -157,6 +164,19 @@ public class EricEv implements Evaluator {
         return score;
     }
 
+    public int specialities(){
+        int score = 0;
+        for(int figure:new int[]{2,3,4}){
+            switch (countFigure(figure * activePlayer, this.field, this.activePlayer)){
+                case 0: score -= 10; break;
+                case 1: score -= 2; break;
+                case 2: score += 15;
+            }
+
+        }
+        return score;
+    }
+
     @Override
     public int evaluate(Game g, int index) {
         this.game = g;
@@ -168,13 +188,14 @@ public class EricEv implements Evaluator {
         for(int i=1; i <= 6; i++){
             this.totalScore += PositioningScore(i);
         }
+        this.totalScore += specialities();
 
         return this.totalScore * activePlayer;
     }
 
     public static void main(String[] args){
         EricEv test = new EricEv();
-        print_bits(test.BAUERN_POSITIONING);
-        print_bits(swap(test.BAUERN_POSITIONING));
+        print_bits(test.TURM_POSITIONING);
+        print_bits(swap(test.TURM_POSITIONING));
     }
 }
