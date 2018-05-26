@@ -10,7 +10,7 @@ public class EricEv implements Evaluator {
     private int activePlayer;
     private int totalScore;
 
-    private static int BAUERN_VALUE = 24;
+    private static int BAUERN_VALUE = 13;
     private static int TURM_VALUE = 75;
     private static int SPRINGER_VALUE = 25;
     private static int LAEUFER_VALUE = 35;
@@ -51,6 +51,63 @@ public class EricEv implements Evaluator {
             {0,2,2,3,3,2,1,-10}
     };
 
+    private static int[][] TURM_POSITIONING = new int[][] {
+            {0,2,2,3,3,2,1,-10},
+            {0,2,4,7,6,4,2,-10},
+            {0,2,6,9,8,6,4,-10},
+            {0,2,8,12,10,8,6,-10},
+            {0,2,8,12,10,8,6,-10},
+            {0,2,6,9,8,6,4,-10},
+            {0,2,4,7,6,4,2,-10},
+            {0,2,2,3,3,2,1,-10}
+    };
+
+    private static int[][] SPRINGER_POSITIONING = new int[][] {
+            {0,2,2,3,3,2,1,-10},
+            {0,2,4,7,6,4,2,-10},
+            {0,2,6,9,8,6,4,-10},
+            {0,2,8,12,10,8,6,-10},
+            {0,2,8,12,10,8,6,-10},
+            {0,2,6,9,8,6,4,-10},
+            {0,2,4,7,6,4,2,-10},
+            {0,2,2,3,3,2,1,-10}
+    };
+
+    private static int[][] LAEUFER_POSITIONING = new int[][] {
+            {0,2,2,3,3,2,1,-10},
+            {0,2,4,7,6,4,2,-10},
+            {0,2,6,9,8,6,4,-10},
+            {0,2,8,12,10,8,6,-10},
+            {0,2,8,12,10,8,6,-10},
+            {0,2,6,9,8,6,4,-10},
+            {0,2,4,7,6,4,2,-10},
+            {0,2,2,3,3,2,1,-10}
+    };
+
+    private static int[][] DAMEN_POSITIONING = new int[][] {
+            {0,2,2,3,3,2,1,-10},
+            {0,2,4,7,6,4,2,-10},
+            {0,2,6,9,8,6,4,-10},
+            {0,2,8,12,10,8,6,-10},
+            {0,2,8,12,10,8,6,-10},
+            {0,2,6,9,8,6,4,-10},
+            {0,2,4,7,6,4,2,-10},
+            {0,2,2,3,3,2,1,-10}
+    };
+
+    private static int[][] KOENIG_POSITIONING = new int[][] {
+            {0,2,2,3,3,2,1,-10},
+            {0,2,4,7,6,4,2,-10},
+            {0,2,6,9,8,6,4,-10},
+            {0,2,8,12,10,8,6,-10},
+            {0,2,8,12,10,8,6,-10},
+            {0,2,6,9,8,6,4,-10},
+            {0,2,4,7,6,4,2,-10},
+            {0,2,2,3,3,2,1,-10}
+    };
+
+    private static int[][][] POSITIONINGS = new int[][][]{BAUERN_POSITIONING,TURM_POSITIONING,SPRINGER_POSITIONING,LAEUFER_POSITIONING,DAMEN_POSITIONING,KOENIG_POSITIONING};
+
     public static int countFigure(int figure, Bitmap field, int activePlayer){
         int number = 0;
         for(byte i = 0; i<8; i++) {
@@ -86,11 +143,14 @@ public class EricEv implements Evaluator {
         return score;
     }
 
-    public int bauernScore(){
+    public int PositioningScore(int figure){
         int score = 0;
         for (int i = 0; i<8; i++){
             for (int j = 0; j<8; j++){
-
+                if (field.getValue(i, j) == figure * activePlayer){
+                    score += POSITIONINGS[figure-1][i][j] * activePlayer;
+                    score -= swap(POSITIONINGS[figure-1])[i][j] * activePlayer;
+                }
             }
         }
 
@@ -105,7 +165,9 @@ public class EricEv implements Evaluator {
         this.totalScore = 0;
 
         this.totalScore += material();
-        this.totalScore += bauernScore();
+        for(int i=1; i <= 6; i++){
+            this.totalScore += PositioningScore(i);
+        }
 
         return this.totalScore * activePlayer;
     }
