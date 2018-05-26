@@ -6,7 +6,7 @@ import java.math.BigInteger;
 
 public class FinnEv implements Evaluator {
 
-    public static final int PAWN_FACTOR = 3;
+    public static final int PAWN_FACTOR = 7;
 
     public static final int[][] PAWN_VALUES = new int[][]{
             {0,0,0,0,0,0,0,0},
@@ -52,7 +52,7 @@ public class FinnEv implements Evaluator {
             {0,0,0,0,0,0,0,0},
     };
 
-    public static final int[] EVALUATE_PRICE = new int[]{0,100*2,824*2,521*2,572*2,1710*2,10000};
+    public static final int[] EVALUATE_PRICE = new int[]{0,300,3200,1500,1800,4000,10000};
     public static final int[][][] POSITION_PRICE = new int[][][]{PAWN_VALUES, ROOK_VALUES, KNIGHT_VALUES, BISHOP_VALUES};
 
 

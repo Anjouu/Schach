@@ -36,8 +36,8 @@ public abstract class KI {
         int max = alpha;
         for(Move m:moves){
             g.move(m);
-            int wert = -minimax(-spieler, tiefe-1,
-                    -beta, -max);
+            int wert = - (int)(1 * minimax(-spieler, tiefe-1,
+                    -beta, -max));
             g.undoMove();
             if (wert > max) {
                 max = wert;

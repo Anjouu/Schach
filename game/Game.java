@@ -73,7 +73,8 @@ public class Game {
 
     public int evaluate() {
         BitSet hash = this.field.hash();
-        if (evaluations.containsKey(hash)) {
+//        if (evaluations.containsKey(hash)) {
+        if(false){
             hashes++;
             return evaluations.get(hash);
         } else {
