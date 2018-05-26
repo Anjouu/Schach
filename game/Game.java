@@ -11,6 +11,7 @@ public class Game {
 
     private Bitmap field;
     private byte activePlayer;
+    private boolean[] rochaden = new boolean[4];
 
     private Stack<Move> moves = new Stack<>();
     private HashMap<BitSet, Integer> evaluations = new HashMap<>();
@@ -20,13 +21,11 @@ public class Game {
 
     public static final int[][] SRINGER_DIRECTIONS = new int[][]{{1, 2}, {2, 1}, {1, -2}, {-2, 1}, {-1, 2}, {2, -1}, {-1, -2}, {-2, -1}};
 
-    public static final int[] TURM_DIRECTIONS = new int[]{1, -1};
+    public static final int[]   TURM_DIRECTIONS = new int[]{1, -1};
     public static final int[][] LAEUFER_DIRECTIONS = new int[][]{{1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
     public static final int[] EVALUATE_PRICE = new int[]{0, 100, 824, 521, 572, 1710, 10000};
 
-
     public Evaluator evaluator;
-
 
     public Game(Evaluator evaluator) {
         this.evaluator = evaluator;
@@ -69,6 +68,10 @@ public class Game {
         field.setValue(6, 6, (byte) -1);
         field.setValue(7, 6, (byte) -1);
 
+        rochaden = new boolean[4];
+        for(int i = 0; i < 4; i++){
+            rochaden[i] = true;
+        }
     }
 
     public int evaluate() {
@@ -89,6 +92,49 @@ public class Game {
     }
 
     public void move(Move move) {
+
+        if(move.getMap_from() == 2){
+            if(move.getX_from() == 7 && rochaden[0]) {
+                rochaden[0] = false;
+                move.setRochade_index(0);
+            }
+            if(move.getX_from() == 0 && rochaden[1]) {
+                rochaden[1] = false;
+                move.setRochade_index(1);
+            }
+        }
+        if(move.getMap_from() == -2){
+            if(move.getX_from() == 7 && rochaden[2]) {
+                rochaden[2] = false;
+                move.setRochade_index(2);
+            }
+            if(move.getX_from() == 0 && rochaden[3]) {
+                rochaden[3] = false;
+                move.setRochade_index(3);
+            }
+        }
+        if(move.getMap_from() == 6){
+            if(move.getX_to() - move.getX_from() == 2){
+                this.field.setValue(7,0,(byte)0);
+                this.field.setValue(5,0,(byte)2);
+                move.setRochade_index(0);
+            }else if(move.getX_to() - move.getX_from() == -3){
+                this.field.setValue(0,0,(byte)0);
+                this.field.setValue(2,0,(byte)2);
+                move.setRochade_index(1);
+            }
+        }else if(move.getMap_from() == -6){
+            if(move.getX_to() - move.getX_from() == 2){
+                this.field.setValue(7,7,(byte)0);
+                this.field.setValue(5,7,(byte)-2);
+                move.setRochade_index(2);
+            }else if(move.getX_to() - move.getX_from() == -3){
+                this.field.setValue(0,7,(byte)0);
+                this.field.setValue(2,7,(byte)-2);
+                move.setRochade_index(3);
+            }
+        }
+
         this.field.setValue(move.getX_from(), move.getY_from(), (byte) 0);
         this.field.setValue(move.getX_to(), move.getY_to(), move.getMap_from());
 
@@ -99,6 +145,28 @@ public class Game {
     public void undoMove() {
         this.activePlayer = (byte) -activePlayer;
         Move move = moves.pop();
+
+
+        if(move.getRochade_index() != -1){
+            this.rochaden[move.getRochade_index()] = true;
+        }
+        if(move.getMap_from() == 6){
+            if(move.getX_to() - move.getX_from() == 2){
+                this.field.setValue(7,0,(byte)2);
+                this.field.setValue(5,0,(byte)0);
+            }else if(move.getX_to() - move.getX_from() == -3){
+                this.field.setValue(0,0,(byte)2);
+                this.field.setValue(2,0,(byte)0);
+            }
+        }else if(move.getMap_from() == -6){
+            if(move.getX_to() - move.getX_from() == 2){
+                this.field.setValue(7,7,(byte)-2);
+                this.field.setValue(5,7,(byte)0);
+            }else if(move.getX_to() - move.getX_from() == -3){
+                this.field.setValue(0,7,(byte)-2);
+                this.field.setValue(2,7,(byte)0);
+            }
+        }
 
         this.field.setValue(move.getX_from(), move.getY_from(), move.getMap_from());
         this.field.setValue(move.getX_to(), move.getY_to(), move.getMap_target());
@@ -222,6 +290,23 @@ public class Game {
                 }
 
                 if (field.getValue(i, j) == activePlayer * 6) {
+
+                    if(activePlayer > 0){
+                        if(rochaden[0] && field.getValue(5,0) == 0 && field.getValue(6,0) == 0 && j == 0){
+                            moves.add(new Move(i,j, (byte) (6), (byte)(i + 2), (byte)j, (byte)0));
+                        }
+                        if(rochaden[1] && field.getValue(3,0) == 0 && field.getValue(2,0) == 0 && field.getValue(1,0) == 0 && j == 0) {
+                            moves.add(new Move(i,j, (byte) (6), (byte)(i - 3), (byte)j, (byte)0));
+                        }
+                    }else{
+                        if(rochaden[2] && field.getValue(5,7) == 0 && field.getValue(6,7) == 0 && j == 7){
+                            moves.add(new Move(i,j, (byte) (-6), (byte)(i + 2), (byte)j, (byte)0));
+                        }
+                        if(rochaden[3] && field.getValue(3,7) == 0 && field.getValue(2,7) == 0 && field.getValue(1,7) == 0 && j == 7) {
+                            moves.add(new Move(i,j, (byte) (-6), (byte)(i - 3), (byte)j, (byte)0));
+                        }
+                    }
+
                     for (int dir : TURM_DIRECTIONS) {
                         if (i + dir < 8 && i + dir >= 0 && field.getValue(i + dir, j) * activePlayer <= 0) {
                             moves.add(new Move(i, j, (byte) (activePlayer * 6), (byte) (i + dir), j, field.getValue(i + dir, j)));

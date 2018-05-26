@@ -48,7 +48,7 @@ public class GamePanel extends JPanel{
         return icons[(int)Math.abs(g.getField().getValue(x,y)) - 1][g.getField().getValue(x,y) > 0 ? 0:1];
     }
 
-    public GamePanel(Game g) {
+    public GamePanel(Game g, Frame f) {
         super();
 
         this.g = g;
@@ -63,6 +63,7 @@ public class GamePanel extends JPanel{
                 b.setFocusPainted(false);
                 b.setOpaque(true);
                 b.setFont(new Font("Arial", 1, 50));
+                b.addKeyListener(f);
 
                 final int x = n;
                 final int y = i;
@@ -143,7 +144,7 @@ public class GamePanel extends JPanel{
                         for(Move m:possible){
                             System.out.println(m);
                         }
-                        g.move(KI.getBestMove(g,5));
+                        //g.move(KI.getBestMove(g,5));
 
                         selected_x = -1;
                         break;
@@ -152,5 +153,11 @@ public class GamePanel extends JPanel{
             }
         }
         updateBackgrounds();
+    }
+
+    public void undo(){
+        this.selected_x = -1;
+        this.g.undoMove();
+        this.updateBackgrounds();
     }
 }

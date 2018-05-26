@@ -13,6 +13,7 @@ public class Move {
     private byte y_to;
     private byte map_target;
 
+    private int rochade_index = -1;
     private int importance;
 
 
@@ -84,6 +85,14 @@ public class Move {
 
     public void setMap_target(byte map_target) {
         this.map_target = map_target;
+    }
+
+    public int getRochade_index() {
+        return rochade_index;
+    }
+
+    public void setRochade_index(int rochade_index) {
+        this.rochade_index = rochade_index;
     }
 
     @Override
