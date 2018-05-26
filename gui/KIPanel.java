@@ -120,14 +120,14 @@ public class KIPanel extends JPanel{
 
         public void run(){
 
-            while(g.getPossibleMoves().size() > 0){
+            while(g.gameOver() == false){
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(100);
                     game.setEvaluator(b);
                     game.move(KI.getBestMove(game, 5));
                     jPanel.updateBackgrounds();
 
-                    Thread.sleep(1000);
+                    Thread.sleep(100);
                     game.setEvaluator(a);
                     game.move(KI.getBestMove(game, 5));
                     jPanel.updateBackgrounds();

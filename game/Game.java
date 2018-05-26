@@ -7,7 +7,7 @@ import java.util.*;
 /**
  * Created by Anwender on 24.05.2018.
  */
-public class Game{
+public class Game {
 
     private Bitmap field;
     private byte activePlayer;
@@ -18,67 +18,66 @@ public class Game{
     public int hashes;
     public int calculations;
 
-    public static final int[][] SRINGER_DIRECTIONS = new int[][]{{1,2},{2,1},{1,-2},{-2,1},{-1,2},{2,-1},{-1,-2},{-2,-1}};
+    public static final int[][] SRINGER_DIRECTIONS = new int[][]{{1, 2}, {2, 1}, {1, -2}, {-2, 1}, {-1, 2}, {2, -1}, {-1, -2}, {-2, -1}};
 
-    public static final int[] TURM_DIRECTIONS = new int[]{1,-1};
-    public static final int[][] LAEUFER_DIRECTIONS = new int[][]{{1,1},{1,-1},{-1,1},{-1,-1}};
-    public static final int[] EVALUATE_PRICE = new int[]{0,100,824,521,572,1710,10000};
+    public static final int[] TURM_DIRECTIONS = new int[]{1, -1};
+    public static final int[][] LAEUFER_DIRECTIONS = new int[][]{{1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
+    public static final int[] EVALUATE_PRICE = new int[]{0, 100, 824, 521, 572, 1710, 10000};
 
 
     public Evaluator evaluator;
 
 
-
-    public Game(Evaluator evaluator){
+    public Game(Evaluator evaluator) {
         this.evaluator = evaluator;
         reset();
     }
 
-    public void reset(){
+    public void reset() {
         field = new Bitmap();
         activePlayer = 1;
-        field.setValue(0,0, (byte) 2);
-        field.setValue(1,0, (byte) 3);
-        field.setValue(2,0, (byte) 4);
-        field.setValue(3,0, (byte) 5);
-        field.setValue(4,0, (byte) 6);
-        field.setValue(5,0, (byte) 4);
-        field.setValue(6,0, (byte) 3);
-        field.setValue(7,0, (byte) 2);
-        field.setValue(0,1, (byte) 1);
-        field.setValue(1,1, (byte) 1);
-        field.setValue(2,1, (byte) 1);
-        field.setValue(3,1, (byte) 1);
-        field.setValue(4,1, (byte) 1);
-        field.setValue(5,1, (byte) 1);
-        field.setValue(6,1, (byte) 1);
-        field.setValue(7,1, (byte) 1);
-        field.setValue(0,7, (byte) -2);
-        field.setValue(1,7, (byte) -3);
-        field.setValue(2,7, (byte) -4);
-        field.setValue(3,7, (byte) -5);
-        field.setValue(4,7, (byte) -6);
-        field.setValue(5,7, (byte) -4);
-        field.setValue(6,7, (byte) -3);
-        field.setValue(7,7, (byte) -2);
-        field.setValue(0,6, (byte) -1);
-        field.setValue(1,6, (byte) -1);
-        field.setValue(2,6, (byte) -1);
-        field.setValue(3,6, (byte) -1);
-        field.setValue(4,6, (byte) -1);
-        field.setValue(5,6, (byte) -1);
-        field.setValue(6,6, (byte) -1);
-        field.setValue(7,6, (byte) -1);
+        field.setValue(0, 0, (byte) 2);
+        field.setValue(1, 0, (byte) 3);
+        field.setValue(2, 0, (byte) 4);
+        field.setValue(3, 0, (byte) 5);
+        field.setValue(4, 0, (byte) 6);
+        field.setValue(5, 0, (byte) 4);
+        field.setValue(6, 0, (byte) 3);
+        field.setValue(7, 0, (byte) 2);
+        field.setValue(0, 1, (byte) 1);
+        field.setValue(1, 1, (byte) 1);
+        field.setValue(2, 1, (byte) 1);
+        field.setValue(3, 1, (byte) 1);
+        field.setValue(4, 1, (byte) 1);
+        field.setValue(5, 1, (byte) 1);
+        field.setValue(6, 1, (byte) 1);
+        field.setValue(7, 1, (byte) 1);
+        field.setValue(0, 7, (byte) -2);
+        field.setValue(1, 7, (byte) -3);
+        field.setValue(2, 7, (byte) -4);
+        field.setValue(3, 7, (byte) -5);
+        field.setValue(4, 7, (byte) -6);
+        field.setValue(5, 7, (byte) -4);
+        field.setValue(6, 7, (byte) -3);
+        field.setValue(7, 7, (byte) -2);
+        field.setValue(0, 6, (byte) -1);
+        field.setValue(1, 6, (byte) -1);
+        field.setValue(2, 6, (byte) -1);
+        field.setValue(3, 6, (byte) -1);
+        field.setValue(4, 6, (byte) -1);
+        field.setValue(5, 6, (byte) -1);
+        field.setValue(6, 6, (byte) -1);
+        field.setValue(7, 6, (byte) -1);
 
     }
 
     public int evaluate() {
         BitSet hash = this.field.hash();
-        if(evaluations.containsKey(hash)){
-            hashes ++;
+        if (evaluations.containsKey(hash)) {
+            hashes++;
             return evaluations.get(hash);
-        }else{
-            int v= this.evaluator.evaluate(this, activePlayer);
+        } else {
+            int v = this.evaluator.evaluate(this, activePlayer);
             this.evaluations.put(hash, v);
             return v;
         }
@@ -89,19 +88,19 @@ public class Game{
     }
 
     public void move(Move move) {
-        this.field.setValue(move.getX_from(), move.getY_from(),(byte)0);
-        this.field.setValue(move.getX_to(), move.getY_to(),move.getMap_from());
+        this.field.setValue(move.getX_from(), move.getY_from(), (byte) 0);
+        this.field.setValue(move.getX_to(), move.getY_to(), move.getMap_from());
 
         this.moves.add(move);
-        this.activePlayer = (byte)-activePlayer;
+        this.activePlayer = (byte) -activePlayer;
     }
 
     public void undoMove() {
-        this.activePlayer = (byte)-activePlayer;
+        this.activePlayer = (byte) -activePlayer;
         Move move = moves.pop();
 
-        this.field.setValue(move.getX_from(), move.getY_from(),move.getMap_from());
-        this.field.setValue(move.getX_to(), move.getY_to(),move.getMap_target());
+        this.field.setValue(move.getX_from(), move.getY_from(), move.getMap_from());
+        this.field.setValue(move.getX_to(), move.getY_to(), move.getMap_target());
     }
 
     public void orderPossibleMoves(LinkedList<Move> moves) {
@@ -111,8 +110,8 @@ public class Game{
             public int compare(Move o1, Move o2) {
                 int a1 = o1.importance();
                 int a2 = o2.importance();
-                if(a1 > a2) return -1;
-                if(a2 > a1) return 1;
+                if (a1 > a2) return -1;
+                if (a2 > a1) return 1;
                 return 0;
             }
         });
@@ -124,11 +123,21 @@ public class Game{
     }
 
 
+    public boolean gameOver() {
+        int c = 0;
+        for (byte i = 0; i < 8; i++) {
+            for (byte j = 0; j < 8; j++) {
+                if(Math.abs(field.getValue(i,j)) == 6) c ++;
+            }
+        }
+        return c < 2? true:false;
+    }
+
     public LinkedList<Move> getPossibleMoves() {
         LinkedList<Move> moves = new LinkedList<>();
 
-        for(byte i=0; i<8; i++){
-            for(byte j=0; j<8; j++) {
+        for (byte i = 0; i < 8; i++) {
+            for (byte j = 0; j < 8; j++) {
 
                 if (field.getValue(i, j) == activePlayer * 5) { // Dame
                     for (int dir : TURM_DIRECTIONS) {
@@ -153,17 +162,16 @@ public class Game{
                     for (int[] dir : LAEUFER_DIRECTIONS) {
                         int kx = dir[0];
                         int ky = dir[1];
-                        while (i + kx < 8 && i + kx >= 0 && j + ky < 8 && j + ky >= 0 && field.getValue(i + kx, j + ky) == 0){
-                            moves.add(new Move(i, j,(byte)(activePlayer * 5), (byte) (i + kx), (byte) (j + ky), (byte) 0));
+                        while (i + kx < 8 && i + kx >= 0 && j + ky < 8 && j + ky >= 0 && field.getValue(i + kx, j + ky) == 0) {
+                            moves.add(new Move(i, j, (byte) (activePlayer * 5), (byte) (i + kx), (byte) (j + ky), (byte) 0));
                             kx += dir[0];
                             ky += dir[1];
                         }
-                        if (i + kx < 8 && i + kx >= 0 && j + ky < 8 && j + ky >= 0 && field.getValue(i + kx, j + ky) * activePlayer < 0){
-                            moves.add(new Move(i, j,(byte)(activePlayer * 5), (byte) (i + kx), (byte) (j + ky), field.getValue(i + kx, j + ky)));
+                        if (i + kx < 8 && i + kx >= 0 && j + ky < 8 && j + ky >= 0 && field.getValue(i + kx, j + ky) * activePlayer < 0) {
+                            moves.add(new Move(i, j, (byte) (activePlayer * 5), (byte) (i + kx), (byte) (j + ky), field.getValue(i + kx, j + ky)));
                         }
                     }
                 }
-
 
 
                 if (field.getValue(i, j) == activePlayer * 3) { // Springer
@@ -173,7 +181,6 @@ public class Game{
                         }
                     }
                 }
-
 
 
                 if (field.getValue(i, j) == activePlayer * 2) { // Türme
@@ -202,29 +209,29 @@ public class Game{
                     for (int[] dir : LAEUFER_DIRECTIONS) {
                         int kx = dir[0];
                         int ky = dir[1];
-                        while (i + kx < 8 && i + kx >= 0 && j + ky < 8 && j + ky >= 0 && field.getValue(i + kx, j + ky) == 0){
-                            moves.add(new Move(i, j,(byte)(activePlayer * 4), (byte) (i + kx), (byte) (j + ky), (byte) 0));
+                        while (i + kx < 8 && i + kx >= 0 && j + ky < 8 && j + ky >= 0 && field.getValue(i + kx, j + ky) == 0) {
+                            moves.add(new Move(i, j, (byte) (activePlayer * 4), (byte) (i + kx), (byte) (j + ky), (byte) 0));
                             kx += dir[0];
                             ky += dir[1];
                         }
-                        if (i + kx < 8 && i + kx >= 0 && j + ky < 8 && j + ky >= 0 && field.getValue(i + kx, j + ky) * activePlayer < 0){
-                            moves.add(new Move(i, j,(byte)(activePlayer * 4), (byte) (i + kx), (byte) (j + ky), field.getValue(i + kx, j + ky)));
+                        if (i + kx < 8 && i + kx >= 0 && j + ky < 8 && j + ky >= 0 && field.getValue(i + kx, j + ky) * activePlayer < 0) {
+                            moves.add(new Move(i, j, (byte) (activePlayer * 4), (byte) (i + kx), (byte) (j + ky), field.getValue(i + kx, j + ky)));
                         }
                     }
                 }
 
-                if (field.getValue(i, j) == activePlayer * 6){
-                    for (int dir : TURM_DIRECTIONS){
-                        if(i + dir < 8 && i + dir >= 0 && field.getValue(i + dir, j) * activePlayer <= 0){
-                            moves.add(new Move(i, j,(byte)(activePlayer * 6), (byte) (i + dir), j, field.getValue(i + dir, j)));
+                if (field.getValue(i, j) == activePlayer * 6) {
+                    for (int dir : TURM_DIRECTIONS) {
+                        if (i + dir < 8 && i + dir >= 0 && field.getValue(i + dir, j) * activePlayer <= 0) {
+                            moves.add(new Move(i, j, (byte) (activePlayer * 6), (byte) (i + dir), j, field.getValue(i + dir, j)));
                         }
-                        if(j + dir < 8 && j + dir>= 0 && field.getValue(i, j + dir) * activePlayer <= 0){
-                            moves.add(new Move(i, j,(byte)(activePlayer * 6), i, (byte)(j + dir), field.getValue(i , j + dir)));
+                        if (j + dir < 8 && j + dir >= 0 && field.getValue(i, j + dir) * activePlayer <= 0) {
+                            moves.add(new Move(i, j, (byte) (activePlayer * 6), i, (byte) (j + dir), field.getValue(i, j + dir)));
                         }
                     }
-                    for (int[] dir : LAEUFER_DIRECTIONS){
-                        if (i + dir[0] < 8 && i + dir[0] >= 0 && j + dir[1] < 8 && j + dir[1] >= 0 && field.getValue(i + dir[0], j + dir[1]) * activePlayer <= 0){
-                            moves.add(new Move(i, j, (byte)(activePlayer * 6), (byte)(i + dir[0]),(byte)(j + dir[1]), field.getValue(i + dir[0], j + dir[1])));
+                    for (int[] dir : LAEUFER_DIRECTIONS) {
+                        if (i + dir[0] < 8 && i + dir[0] >= 0 && j + dir[1] < 8 && j + dir[1] >= 0 && field.getValue(i + dir[0], j + dir[1]) * activePlayer <= 0) {
+                            moves.add(new Move(i, j, (byte) (activePlayer * 6), (byte) (i + dir[0]), (byte) (j + dir[1]), field.getValue(i + dir[0], j + dir[1])));
                         }
                     }
                 }
@@ -251,12 +258,8 @@ public class Game{
                         }
                     }
                 }
-
-
             }
         }
-
-
         return moves;
     }
 
@@ -264,13 +267,13 @@ public class Game{
     @Override
     public String toString() {
         String s = "";
-        for(int i = 0; i < 8; i++){
+        for (int i = 0; i < 8; i++) {
 
-            for(int n = 0; n < 8; n++){
-                s+=this.field.getValue(n,i);
+            for (int n = 0; n < 8; n++) {
+                s += this.field.getValue(n, i);
             }
 
-            s+="\n";
+            s += "\n";
         }
         return s;
     }
