@@ -1,6 +1,10 @@
 package high_performance.board;
 
+<<<<<<< Updated upstream
 import evaluator.EricEv;
+=======
+import evaluator.FinnEv;
+>>>>>>> Stashed changes
 import game.Game;
 import sun.awt.image.ImageWatched;
 
@@ -144,7 +148,11 @@ public class Board {
         System.out.println((double)(System.nanoTime()-t1));
 
 
+<<<<<<< Updated upstream
         Game g = new Game(new EricEv());
+=======
+        Game g = new Game(new FinnEv());
+>>>>>>> Stashed changes
         t1 = System.nanoTime();
         for(int i = 0; i < 100; i++){
             g.getPossibleMoves();

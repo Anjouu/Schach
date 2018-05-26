@@ -1,6 +1,5 @@
 package gui;
 
-import evaluator.EricEv;
 import game.Game;
 
 import javax.swing.*;
