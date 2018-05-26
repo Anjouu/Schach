@@ -10,7 +10,7 @@ public class EricEv implements Evaluator {
     private int activePlayer;
     private int totalScore;
 
-    private static int BAUERN_VALUE = 11;
+    private static int BAUERN_VALUE = 14;
     private static int TURM_VALUE = 90;
     private static int SPRINGER_VALUE = 25;
     private static int LAEUFER_VALUE = 35;
@@ -56,7 +56,26 @@ public class EricEv implements Evaluator {
         int score = 0;
 
         score += countFigure(1, this.field, this.activePlayer) * 2;
-
+        for(int i = 0; i<8; i++){
+            for(int j = 0; j<8; j++){
+                if (field.getValue(i, j ) == 1){
+                    if (activePlayer == 1){
+                        score += j;
+                    }
+                    else{
+                        score -= j;
+                    }
+                }
+                if (field.getValue(i, j) == -1){
+                    if (activePlayer == 1){
+                        score += j;
+                    }
+                    else{
+                        score -= j;
+                    }
+                }
+            }
+        }
 
         return score;
     }
