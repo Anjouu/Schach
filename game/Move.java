@@ -27,6 +27,8 @@ public class Move {
         this.importance = this.importance();
     }
 
+
+
     public int importance(){
         int val = 0;
 

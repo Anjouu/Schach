@@ -1,5 +1,7 @@
 package game;
 
+import evaluator.Evaluator;
+
 import java.util.*;
 
 /**
@@ -20,14 +22,15 @@ public class Game{
 
     public static final int[] TURM_DIRECTIONS = new int[]{1,-1};
     public static final int[][] LAEUFER_DIRECTIONS = new int[][]{{1,1},{1,-1},{-1,1},{-1,-1}};
-
     public static final int[] EVALUATE_PRICE = new int[]{0,100,824,521,572,1710,10000};
-    public static final int EVALUATE_ROOK_ATTACK_KING_FILE = 51;
-    public static final int EVALUATE_ROOK_7TH_RANK = 30;
+
+
+    public Evaluator evaluator;
 
 
 
-    public Game(){
+    public Game(Evaluator evaluator){
+        this.evaluator = evaluator;
         reset();
     }
 
@@ -70,31 +73,15 @@ public class Game{
     }
 
     public int evaluate() {
-
         BitSet hash = this.field.hash();
         if(evaluations.containsKey(hash)){
             hashes ++;
             return evaluations.get(hash);
         }else{
-            int v = 0;
-
-            for(int i = 0; i < 8; i++){
-                for(int n = 0; n <8; n++){
-                    if(field.getValue(i,n) != 0){
-                        v += EVALUATE_PRICE[Math.abs(field.getValue(i,n))] * (field.getValue(i,n) > 0 ? 1:-1);
-
-                        if(Math.abs(v) == 2){
-                            if(v * n == 6 || v * n == -1) v+=1;
-                        }
-                    }
-                }
-            }
-
-            calculations ++;
-            evaluations.put(hash, v);
+            int v= this.evaluator.evaluate(this, activePlayer);
+            this.evaluations.put(hash, v);
             return v;
         }
-
     }
 
     public byte getActivePlayer() {
