@@ -58,7 +58,7 @@ public class KIPanel extends JPanel{
     public KIPanel(Game g) {
         super();
 
-        new KIMatch(g,new EricEv(), new FinnEv(), this);
+        new KIMatch(g,new FinnEv(), new EricEv(), this);
 
         this.g = g;
         this.setLayout(new GridLayout(8,8));
@@ -123,12 +123,12 @@ public class KIPanel extends JPanel{
             while(g.gameOver() == false){
                 try {
                     Thread.sleep(1000);
-                    game.setEvaluator(b);
+                    game.setEvaluator(a);
                     game.move(KI.getBestMove(game, 5));
                     jPanel.updateBackgrounds();
 
                     Thread.sleep(1000);
-                    game.setEvaluator(a);
+                    game.setEvaluator(b);
                     game.move(KI.getBestMove(game, 5));
                     jPanel.updateBackgrounds();
                 } catch (InterruptedException e) {

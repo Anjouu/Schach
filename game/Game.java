@@ -117,20 +117,24 @@ public class Game {
             if(move.getX_to() - move.getX_from() == 2){
                 this.field.setValue(7,0,(byte)0);
                 this.field.setValue(5,0,(byte)2);
+                rochaden[0] = false;
                 move.setRochade_index(0);
             }else if(move.getX_to() - move.getX_from() == -3){
                 this.field.setValue(0,0,(byte)0);
                 this.field.setValue(2,0,(byte)2);
+                rochaden[1] = false;
                 move.setRochade_index(1);
             }
         }else if(move.getMap_from() == -6){
             if(move.getX_to() - move.getX_from() == 2){
                 this.field.setValue(7,7,(byte)0);
                 this.field.setValue(5,7,(byte)-2);
+                rochaden[2] = false;
                 move.setRochade_index(2);
             }else if(move.getX_to() - move.getX_from() == -3){
                 this.field.setValue(0,7,(byte)0);
                 this.field.setValue(2,7,(byte)-2);
+                rochaden[3] = false;
                 move.setRochade_index(3);
             }
         }
@@ -204,6 +208,8 @@ public class Game {
 
     public LinkedList<Move> getPossibleMoves() {
         LinkedList<Move> moves = new LinkedList<>();
+
+        if(gameOver()) return moves;
 
         for (byte i = 0; i < 8; i++) {
             for (byte j = 0; j < 8; j++) {
@@ -292,17 +298,17 @@ public class Game {
                 if (field.getValue(i, j) == activePlayer * 6) {
 
                     if(activePlayer > 0){
-                        if(rochaden[0] && field.getValue(5,0) == 0 && field.getValue(6,0) == 0 && j == 0){
+                        if(rochaden[0] && field.getValue(5,0) == 0 && field.getValue(6,0) == 0 && j == 0 && i == 4){
                             moves.add(new Move(i,j, (byte) (6), (byte)(i + 2), (byte)j, (byte)0));
                         }
-                        if(rochaden[1] && field.getValue(3,0) == 0 && field.getValue(2,0) == 0 && field.getValue(1,0) == 0 && j == 0) {
+                        if(rochaden[1] && field.getValue(3,0) == 0 && field.getValue(2,0) == 0 && field.getValue(1,0) == 0 && j == 0  && i == 4) {
                             moves.add(new Move(i,j, (byte) (6), (byte)(i - 3), (byte)j, (byte)0));
                         }
                     }else{
-                        if(rochaden[2] && field.getValue(5,7) == 0 && field.getValue(6,7) == 0 && j == 7){
+                        if(rochaden[2] && field.getValue(5,7) == 0 && field.getValue(6,7) == 0 && j == 7 && i == 4){
                             moves.add(new Move(i,j, (byte) (-6), (byte)(i + 2), (byte)j, (byte)0));
                         }
-                        if(rochaden[3] && field.getValue(3,7) == 0 && field.getValue(2,7) == 0 && field.getValue(1,7) == 0 && j == 7) {
+                        if(rochaden[3] && field.getValue(3,7) == 0 && field.getValue(2,7) == 0 && field.getValue(1,7) == 0 && j == 7  && i == 4) {
                             moves.add(new Move(i,j, (byte) (-6), (byte)(i - 3), (byte)j, (byte)0));
                         }
                     }
