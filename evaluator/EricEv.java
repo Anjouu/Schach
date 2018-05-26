@@ -71,7 +71,6 @@ public class EricEv implements Evaluator {
         this.totalScore += material();
         this.totalScore += bauernScore();
 
-        System.out.println(this.totalScore);
-        return this.totalScore;
+        return this.totalScore * activePlayer;
     }
 }

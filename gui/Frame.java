@@ -1,5 +1,6 @@
 package gui;
 
+import evaluator.EricEv;
 import game.Game;
 
 import javax.swing.*;
@@ -14,7 +15,7 @@ public class Frame extends JFrame{
 
         this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
         this.setSize(800,800);
-        this.add(new GamePanel(new Game(new EricEv())));
+        this.add(new KIPanel(new Game(new EricEv())));
 
         this.setVisible(true);
     }

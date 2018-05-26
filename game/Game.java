@@ -282,4 +282,12 @@ public class Game{
     public Stack<Move> getMoves() {
         return moves;
     }
+
+    public Evaluator getEvaluator() {
+        return evaluator;
+    }
+
+    public void setEvaluator(Evaluator evaluator) {
+        this.evaluator = evaluator;
+    }
 }

@@ -1,10 +1,5 @@
 package high_performance.board;
 
-<<<<<<< Updated upstream
-import evaluator.EricEv;
-=======
-import evaluator.FinnEv;
->>>>>>> Stashed changes
 import game.Game;
 import sun.awt.image.ImageWatched;
 
@@ -137,27 +132,6 @@ public class Board {
 
 
     public static void main(String[] args) {
-
-        Board b = new Board();
-        long a = Board.KNIGHT_TABLE[0];
-
-        long t1 = System.nanoTime();
-        for(int i = 0; i < 100; i++){
-            b.possibleMoves(1);
-        }
-        System.out.println((double)(System.nanoTime()-t1));
-
-
-<<<<<<< Updated upstream
-        Game g = new Game(new EricEv());
-=======
-        Game g = new Game(new FinnEv());
->>>>>>> Stashed changes
-        t1 = System.nanoTime();
-        for(int i = 0; i < 100; i++){
-            g.getPossibleMoves();
-        }
-        System.out.println((double)(System.nanoTime()-t1));
 
     }
 
