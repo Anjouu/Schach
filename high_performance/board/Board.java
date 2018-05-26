@@ -1,5 +1,6 @@
 package high_performance.board;
 
+import evaluator.EricEv;
 import game.Game;
 import sun.awt.image.ImageWatched;
 
@@ -143,7 +144,7 @@ public class Board {
         System.out.println((double)(System.nanoTime()-t1));
 
 
-        Game g = new Game();
+        Game g = new Game(new EricEv());
         t1 = System.nanoTime();
         for(int i = 0; i < 100; i++){
             g.getPossibleMoves();

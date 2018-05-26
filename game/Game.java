@@ -117,9 +117,9 @@ public class Game{
             }
         });
 
-        while(moves.get(moves.size()-1).importance() == 20 && moves.size() > 10){
-            moves.remove(moves.size()-1);
-        }
+        //while(moves.get(moves.size()-1).importance() == 20){
+        //    moves.remove(moves.size()-1);
+        //}
 
     }
 

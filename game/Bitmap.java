@@ -1,5 +1,7 @@
 package game;
 
+import evaluator.EricEv;
+
 import java.util.BitSet;
 
 /**
@@ -76,7 +78,7 @@ public class Bitmap{
     }
 
     public static void main(String[] args) {
-        Game g = new Game();
+        Game g = new Game(new EricEv());
 
         printBitSet(g.getField().hash());
     }

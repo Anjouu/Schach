@@ -114,7 +114,7 @@ public class GamePanel extends JPanel{
                 }
             }
             buttons[selected_x][selected_y].setBackground(color_selected);
-        }
+}
     }
 
     private int selected_x = -1;
@@ -143,7 +143,7 @@ public class GamePanel extends JPanel{
                         for(Move m:possible){
                             System.out.println(m);
                         }
-                        g.move(KI.getBestMove(g,6));
+                        g.move(KI.getBestMove(g,5));
 
                         selected_x = -1;
                         break;
