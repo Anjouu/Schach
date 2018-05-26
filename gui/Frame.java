@@ -30,8 +30,7 @@ public class Frame extends JFrame implements KeyListener {
         this.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        Frame f = new Frame();
+    public static void main(String[] args) {Frame f = new Frame();
     }
 
     @Override

@@ -10,12 +10,46 @@ public class EricEv implements Evaluator {
     private int activePlayer;
     private int totalScore;
 
-    private static int BAUERN_VALUE = 14;
-    private static int TURM_VALUE = 90;
+    private static int BAUERN_VALUE = 24;
+    private static int TURM_VALUE = 75;
     private static int SPRINGER_VALUE = 25;
     private static int LAEUFER_VALUE = 35;
-    private static int DAMEN_VALUE = 150;
-    private static int KOENIG_VALUE = 10000;
+    private static int DAMEN_VALUE = 130;
+    private static int KOENIG_VALUE = 100000;
+
+    static final void print_bits(int[][] number) {
+        for (int i = 7; i >= 0; i--) {
+            for (int n = 0; n < 8; n++) {
+                //System.out.print(antiDiagonalIndex(squareIndex(i,n)) + " ");
+                System.out.print(number[n][i] + " ");
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+
+    private static int[][] swap(int[][] field){
+        int[][] swappedField = new int[8][8];
+        for (int i = 0; i<8; i++){
+            for (int j = 0; j<8; j++){
+                swappedField[7 - j][7 - i] = field[j][i];
+            }
+        }
+        return swappedField;
+    }
+
+
+
+    private static int[][] BAUERN_POSITIONING = new int[][] {
+            {0,2,2,3,3,2,1,-10},
+            {0,2,4,7,6,4,2,-10},
+            {0,2,6,9,8,6,4,-10},
+            {0,2,8,12,10,8,6,-10},
+            {0,2,8,12,10,8,6,-10},
+            {0,2,6,9,8,6,4,-10},
+            {0,2,4,7,6,4,2,-10},
+            {0,2,2,3,3,2,1,-10}
+    };
 
     public static int countFigure(int figure, Bitmap field, int activePlayer){
         int number = 0;
@@ -54,26 +88,9 @@ public class EricEv implements Evaluator {
 
     public int bauernScore(){
         int score = 0;
+        for (int i = 0; i<8; i++){
+            for (int j = 0; j<8; j++){
 
-        score += countFigure(1, this.field, this.activePlayer) * 2;
-        for(int i = 0; i<8; i++){
-            for(int j = 0; j<8; j++){
-                if (field.getValue(i, j ) == 1){
-                    if (activePlayer == 1){
-                        score += j;
-                    }
-                    else{
-                        score -= j;
-                    }
-                }
-                if (field.getValue(i, j) == -1){
-                    if (activePlayer == 1){
-                        score += j;
-                    }
-                    else{
-                        score -= j;
-                    }
-                }
             }
         }
 
@@ -91,5 +108,11 @@ public class EricEv implements Evaluator {
         this.totalScore += bauernScore();
 
         return this.totalScore * activePlayer;
+    }
+
+    public static void main(String[] args){
+        EricEv test = new EricEv();
+        print_bits(test.BAUERN_POSITIONING);
+        print_bits(swap(test.BAUERN_POSITIONING));
     }
 }
