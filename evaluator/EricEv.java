@@ -10,14 +10,14 @@ public class EricEv implements Evaluator {
     private int activePlayer;
     private int totalScore;
 
-    private static int BAUERN_VALUE = 15;
-    private static int TURM_VALUE = 60;
-    private static int SPRINGER_VALUE = 25;
-    private static int LAEUFER_VALUE = 35;
-    private static int DAMEN_VALUE = 115;
+    private static int BAUERN_VALUE = 45;
+    private static int TURM_VALUE = 160;
+    private static int SPRINGER_VALUE = 95;
+    private static int LAEUFER_VALUE = 105;
+    private static int DAMEN_VALUE = 285;
     private static int KOENIG_VALUE = 100000;
 
-    static final void print_bits(int[][] number) {
+    private static void print_bits(int[][] number) {
         for (int i = 7; i >= 0; i--) {
             for (int n = 0; n < 8; n++) {
                 //System.out.print(antiDiagonalIndex(squareIndex(i,n)) + " ");

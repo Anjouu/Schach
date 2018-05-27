@@ -122,14 +122,14 @@ public class KIPanel extends JPanel{
 
             while(g.gameOver() == false){
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(300);
                     game.setEvaluator(b);
-                    game.move(KI.getBestMove(game, 5));
+                    game.move(KI.getBestMove(game, 6));
                     jPanel.updateBackgrounds();
 
-                    Thread.sleep(1000);
+                    Thread.sleep(300);
                     game.setEvaluator(a);
-                    game.move(KI.getBestMove(game, 5));
+                    game.move(KI.getBestMove(game, 6));
                     jPanel.updateBackgrounds();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
